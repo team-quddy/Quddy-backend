@@ -21,10 +21,10 @@ public class Problem {
     private Integer id;
     private String question;
     private String answer;
-    private String types;
+    private boolean isObjective;
     private String exImg;
     private String exText;
-    private String options;
+    private String opt;
 
     @OneToMany(mappedBy = "problem")
     List<Submit> submits = new ArrayList<>();
