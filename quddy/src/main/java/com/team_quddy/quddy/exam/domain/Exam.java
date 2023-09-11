@@ -22,8 +22,10 @@ public class Exam {
     private String title;
     private String createdDate;
     private Boolean isPublic;
-    private Integer likes;
+    private Integer scrap;
     private Integer cnt;
+    private Integer ref;
+    private String thumbnail;
 
     @OneToMany(mappedBy = "exam")
     List<Problem> problems = new ArrayList<>();
