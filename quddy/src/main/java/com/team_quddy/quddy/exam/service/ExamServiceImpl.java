@@ -2,6 +2,7 @@ package com.team_quddy.quddy.exam.service;
 
 import com.team_quddy.quddy.exam.domain.Exam;
 import com.team_quddy.quddy.exam.domain.dto.TemplateDto;
+import com.team_quddy.quddy.exam.domain.response.ExamRes;
 import com.team_quddy.quddy.exam.domain.response.TemplateDetailRes;
 import com.team_quddy.quddy.exam.domain.response.TemplateRes;
 import com.team_quddy.quddy.exam.repository.ExamRepository;
@@ -32,5 +33,12 @@ public class ExamServiceImpl implements ExamService{
         Exam exam = examRepository.getExamById(id);
 
         return new TemplateDetailRes(exam.getTitle(), exam.getThumbnail(), problemRepository.getProblemTemplate(exam));
+    }
+
+    @Override
+    public ExamRes getExam(Integer id) {
+        Exam exam = examRepository.getExamById(id);
+
+        return new ExamRes(exam.getTitle(), exam.getCreatedDate(), problemRepository.getProblems(exam));
     }
 }

@@ -1,5 +1,6 @@
 package com.team_quddy.quddy.exam.service;
 
+import com.team_quddy.quddy.exam.domain.response.ExamRes;
 import com.team_quddy.quddy.exam.domain.response.TemplateDetailRes;
 import com.team_quddy.quddy.exam.domain.response.TemplateRes;
 
@@ -9,4 +10,6 @@ public interface ExamService {
     List<TemplateRes> getPopularTemplate();
 
     TemplateDetailRes getTemplateDetail(Integer id);
+
+    ExamRes getExam(Integer id);
 }

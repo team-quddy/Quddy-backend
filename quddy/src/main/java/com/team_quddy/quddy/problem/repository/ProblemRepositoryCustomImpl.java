@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team_quddy.quddy.exam.domain.Exam;
 import com.team_quddy.quddy.problem.domain.QProblem;
 import com.team_quddy.quddy.problem.domain.dto.ProblemTemplate;
+import com.team_quddy.quddy.problem.domain.dto.ProblemsDto;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -32,5 +33,19 @@ public class ProblemRepositoryCustomImpl implements ProblemRepositoryCustom{
                         .where(problem.exam.eq(exam))
                         .fetch();
         return problemTemplateList;
+    }
+
+    @Override
+    public List<ProblemsDto> getProblems(Exam exam) {
+        return queryFactory.select(Projections.fields(ProblemsDto.class,
+                problem.id,
+                problem.question,
+                problem.exImg,
+                problem.exText,
+                problem.isObjective,
+                problem.opt))
+                .from(problem)
+                .where(problem.exam.eq(exam))
+                .fetch();
     }
 }

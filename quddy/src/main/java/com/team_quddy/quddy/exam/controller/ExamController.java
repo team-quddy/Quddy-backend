@@ -1,5 +1,6 @@
 package com.team_quddy.quddy.exam.controller;
 
+import com.team_quddy.quddy.exam.domain.response.ExamRes;
 import com.team_quddy.quddy.exam.domain.response.ExamsRes;
 import com.team_quddy.quddy.exam.domain.response.TemplateDetailRes;
 import com.team_quddy.quddy.exam.service.ExamService;
@@ -21,7 +22,12 @@ public class ExamController {
     }
 
     @GetMapping("/template/detail/{id}")
-    public TemplateDetailRes getTemplateDetail(@PathVariable(value = "id")Integer id){
+    public TemplateDetailRes getTemplateDetail(@PathVariable(value = "id") Integer id) {
         return examService.getTemplateDetail(id);
+    }
+
+    @GetMapping("/solver/exam/{id}")
+    public ExamRes getExam(@PathVariable(value = "id") Integer id) {
+        return examService.getExam(id);
     }
 }
