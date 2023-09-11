@@ -22,7 +22,8 @@ public class Problem {
     private String question;
     private String answer;
     private String types;
-    private String example;
+    private String exImg;
+    private String exText;
     private String options;
 
     @OneToMany(mappedBy = "problem")
