@@ -27,4 +27,8 @@ public class Users {
     @OneToMany(mappedBy = "users")
     List<Exam> exams = new ArrayList<>();
 
+    public Users(String nickname) {
+        this.nickname = nickname;
+    }
+
 }
