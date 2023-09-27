@@ -1,6 +1,5 @@
 package com.team_quddy.quddy.exam.controller;
 
-import com.team_quddy.quddy.exam.domain.request.ExamReq;
 import com.team_quddy.quddy.exam.domain.request.GradeReq;
 import com.team_quddy.quddy.exam.domain.response.ExamRes;
 import com.team_quddy.quddy.exam.domain.response.ExamsRes;
@@ -21,14 +20,14 @@ public class ExamController {
         return new ExamsRes(examService.getPopularTemplate());
     }
 
-    @GetMapping("/template/detail")
-    public TemplateDetailRes getTemplateDetail(@RequestBody ExamReq examReq) {
-        return examService.getTemplateDetail(examReq.getId());
+    @GetMapping("/template/detail/{id}")
+    public TemplateDetailRes getTemplateDetail(@PathVariable Integer id) {
+        return examService.getTemplateDetail(id);
     }
 
-    @GetMapping("/solver/exam")
-    public ExamRes getExam(@RequestBody ExamReq examReq) {
-        return examService.getExam(examReq.getId());
+    @GetMapping("/solver/exam/{id}")
+    public ExamRes getExam(@PathVariable Integer id) {
+        return examService.getExam(id);
     }
 
     @PostMapping("/solver")
