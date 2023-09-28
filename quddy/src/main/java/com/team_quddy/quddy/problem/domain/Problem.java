@@ -21,7 +21,7 @@ public class Problem {
     private Integer id;
     private String question;
     private String answer;
-    private boolean isObjective;
+    private Boolean isObjective;
     private String exImg;
     private String exText;
     private String opt;
@@ -40,6 +40,20 @@ public class Problem {
         }
         this.exam = exam;
         exam.getProblems().add(this);
+    }
+    private Problem(String question, String answer, Boolean isObjective, String exImg, String exText, String opt) {
+        this.question = question;
+        this.answer = answer;
+        this.isObjective = isObjective;
+        this.exImg = exImg;
+        this.exText = exText;
+        this.opt = opt;
+    }
+
+    public static Problem createProblem(String question, String answer, Boolean isObjective, String exImg, String exText, String opt, Exam exam) {
+        Problem problem = new Problem(question, answer, isObjective, exImg, exText, opt);
+        problem.setExam(exam);
+        return problem;
     }
 
 }

@@ -1,10 +1,8 @@
 package com.team_quddy.quddy.exam.controller;
 
+import com.team_quddy.quddy.exam.domain.request.ExamReq;
 import com.team_quddy.quddy.exam.domain.request.GradeReq;
-import com.team_quddy.quddy.exam.domain.response.ExamRes;
-import com.team_quddy.quddy.exam.domain.response.ExamsRes;
-import com.team_quddy.quddy.exam.domain.response.GradeRes;
-import com.team_quddy.quddy.exam.domain.response.TemplateDetailRes;
+import com.team_quddy.quddy.exam.domain.response.*;
 import com.team_quddy.quddy.exam.service.ExamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +31,10 @@ public class ExamController {
     @PostMapping("/solver")
     public GradeRes getGrade(@RequestBody GradeReq gradeReq, @CookieValue(name = "usersID") String usersId) {
         return examService.getGrade(gradeReq, usersId);
+    }
+
+    @PostMapping("/setter")
+    public ExamIdRes makeExam(@RequestBody ExamReq examReq, @CookieValue(name = "usersID") String usersId) {
+        return examService.makeExam(examReq, usersId);
     }
 }

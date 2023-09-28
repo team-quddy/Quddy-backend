@@ -41,4 +41,20 @@ public class Exam {
         this.users = users;
         users.getExams().add(this);
     }
+
+    private Exam(String title, String createdDate, Boolean isPublic, Integer cnt, String ref, String thumbnail) {
+        this.title = title;
+        this.createdDate = createdDate;
+        this.isPublic = isPublic;
+        this.scrap = 0;
+        this.cnt = cnt;
+        this.ref = Integer.parseInt(ref);
+        this.thumbnail = thumbnail;
+    }
+
+    public static Exam createExam(String title, String createdDate, Boolean isPublic, Integer cnt, String ref, String thumbnail, Users users) {
+        Exam exam = new Exam(title, createdDate, isPublic, cnt, ref, thumbnail);
+        exam.setUsers(users);
+        return exam;
+    }
 }

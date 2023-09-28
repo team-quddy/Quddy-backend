@@ -2,13 +2,13 @@ package com.team_quddy.quddy.exam.service;
 
 import com.team_quddy.quddy.exam.domain.Exam;
 import com.team_quddy.quddy.exam.domain.dto.TemplateDto;
+import com.team_quddy.quddy.exam.domain.request.ExamReq;
 import com.team_quddy.quddy.exam.domain.request.GradeReq;
-import com.team_quddy.quddy.exam.domain.response.ExamRes;
-import com.team_quddy.quddy.exam.domain.response.GradeRes;
-import com.team_quddy.quddy.exam.domain.response.TemplateDetailRes;
-import com.team_quddy.quddy.exam.domain.response.TemplateRes;
+import com.team_quddy.quddy.exam.domain.response.*;
 import com.team_quddy.quddy.exam.repository.ExamRepository;
+import com.team_quddy.quddy.problem.domain.Problem;
 import com.team_quddy.quddy.problem.domain.dto.ProblemGradeDto;
+import com.team_quddy.quddy.problem.domain.dto.ProblemTemplate;
 import com.team_quddy.quddy.problem.repository.ProblemRepository;
 import com.team_quddy.quddy.submit.domain.Submit;
 import com.team_quddy.quddy.submit.repository.SubmitRepository;
@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,6 +56,7 @@ public class ExamServiceImpl implements ExamService{
     }
 
     @Override
+    @Transactional
     public GradeRes getGrade(GradeReq gradeReq, String usersId) {
         Exam exam = examRepository.getExamById(gradeReq.getExam().getId());
         Users users = usersRepository.getUsersById(Integer.parseInt(usersId));
@@ -73,5 +75,18 @@ public class ExamServiceImpl implements ExamService{
             submitRepository.save(submit);
         }
         return new GradeRes(correct);
+    }
+
+    @Override
+    @Transactional
+    public ExamIdRes makeExam(ExamReq examReq, String usersId) {
+        Users users = usersRepository.getUsersById(Integer.parseInt(usersId));
+        Exam exam = examRepository.save(Exam.createExam(examReq.getTitle(), examReq.getDate(), examReq.getIsPublic(), examReq.getCnt(), examReq.getRef(), examReq.getThumbnail(), users));
+
+        for (int i = 0; i < examReq.getProblems().size(); i++) {
+            ProblemTemplate template = examReq.getProblems().get(i);
+            problemRepository.save(Problem.createProblem(template.getQuestion(), template.getAnswer(), template.getIsObjective(), template.getExImg(), template.getExText(), template.getOpt(), exam));
+        }
+        return new ExamIdRes(String.valueOf(exam.getId()));
     }
 }

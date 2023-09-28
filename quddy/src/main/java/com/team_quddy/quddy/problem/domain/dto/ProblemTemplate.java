@@ -10,6 +10,6 @@ public class ProblemTemplate {
     private String answer;
     private String exImg;
     private String exText;
-    private boolean isObjective;
+    private Boolean isObjective;
     private String opt;
 }
