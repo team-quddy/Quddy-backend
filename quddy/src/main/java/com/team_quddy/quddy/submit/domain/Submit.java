@@ -57,6 +57,6 @@ public class Submit {
     }
     @PrePersist
     public void preCreatedDate() {
-        this.createdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        this.createdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 }
