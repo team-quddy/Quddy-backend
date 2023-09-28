@@ -4,6 +4,7 @@ import com.team_quddy.quddy.exam.domain.request.ExamReq;
 import com.team_quddy.quddy.exam.domain.request.GradeReq;
 import com.team_quddy.quddy.exam.domain.response.*;
 import com.team_quddy.quddy.exam.service.ExamService;
+import com.team_quddy.quddy.global.search.SearchOption;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,4 +38,10 @@ public class ExamController {
     public ExamIdRes makeExam(@RequestBody ExamReq examReq, @CookieValue(name = "usersID") String usersId) {
         return examService.makeExam(examReq, usersId);
     }
+
+    @GetMapping("/setter")
+    public ExamsRes getMyExam(@RequestBody SearchOption searchOption, @CookieValue(name = "usersID") String usersId) {
+        return new ExamsRes(examService.getMyExams(searchOption, usersId));
+    }
+
 }

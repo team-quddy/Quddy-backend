@@ -3,6 +3,7 @@ package com.team_quddy.quddy.exam.service;
 import com.team_quddy.quddy.exam.domain.request.ExamReq;
 import com.team_quddy.quddy.exam.domain.request.GradeReq;
 import com.team_quddy.quddy.exam.domain.response.*;
+import com.team_quddy.quddy.global.search.SearchOption;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -17,4 +18,6 @@ public interface ExamService {
     GradeRes getGrade(GradeReq gradeReq, String usersId);
 
     ExamIdRes makeExam(ExamReq examReq, String usersId);
+
+    List<MyExam> getMyExams(SearchOption searchOption, String usersId);
 }

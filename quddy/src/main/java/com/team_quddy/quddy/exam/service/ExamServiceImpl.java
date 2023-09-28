@@ -6,6 +6,7 @@ import com.team_quddy.quddy.exam.domain.request.ExamReq;
 import com.team_quddy.quddy.exam.domain.request.GradeReq;
 import com.team_quddy.quddy.exam.domain.response.*;
 import com.team_quddy.quddy.exam.repository.ExamRepository;
+import com.team_quddy.quddy.global.search.SearchOption;
 import com.team_quddy.quddy.problem.domain.Problem;
 import com.team_quddy.quddy.problem.domain.dto.ProblemGradeDto;
 import com.team_quddy.quddy.problem.domain.dto.ProblemTemplate;
@@ -88,5 +89,12 @@ public class ExamServiceImpl implements ExamService{
             problemRepository.save(Problem.createProblem(template.getQuestion(), template.getAnswer(), template.getIsObjective(), template.getExImg(), template.getExText(), template.getOpt(), exam));
         }
         return new ExamIdRes(String.valueOf(exam.getId()));
+    }
+
+    @Override
+    public List<MyExam> getMyExams(SearchOption searchOption, String usersId) {
+        Users users = usersRepository.getUsersById(Integer.parseInt(usersId));
+
+        return examRepository.getMyExams(searchOption, users);
     }
 }
