@@ -19,7 +19,7 @@ public class ExamController {
         return new ExamsRes(examService.getPopularTemplate());
     }
 
-    @GetMapping("/template/detail/{id}")
+    @GetMapping("/template/{id}")
     public TemplateDetailRes getTemplateDetail(@PathVariable Integer id) {
         return examService.getTemplateDetail(id);
     }
