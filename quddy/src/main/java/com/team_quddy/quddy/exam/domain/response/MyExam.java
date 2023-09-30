@@ -12,5 +12,6 @@ public class MyExam {
     private Integer scrap;
     private Integer cnt;
     private String thumbnail;
+    private Integer ref;
     private Integer id;
 }
