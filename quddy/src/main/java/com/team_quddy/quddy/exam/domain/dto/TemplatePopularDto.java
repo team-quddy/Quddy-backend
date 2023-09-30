@@ -1,12 +1,11 @@
-package com.team_quddy.quddy.exam.domain.response;
+package com.team_quddy.quddy.exam.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 @AllArgsConstructor
-public class TemplateRes {
+public class TemplatePopularDto {
     private String title;
     private String date;
     private Integer scrap;

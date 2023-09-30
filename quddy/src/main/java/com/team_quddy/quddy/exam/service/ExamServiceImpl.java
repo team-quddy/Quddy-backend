@@ -2,6 +2,7 @@ package com.team_quddy.quddy.exam.service;
 
 import com.team_quddy.quddy.exam.domain.Exam;
 import com.team_quddy.quddy.exam.domain.dto.TemplateDto;
+import com.team_quddy.quddy.exam.domain.dto.TemplatePopularDto;
 import com.team_quddy.quddy.exam.domain.request.ExamReq;
 import com.team_quddy.quddy.exam.domain.request.GradeReq;
 import com.team_quddy.quddy.exam.domain.response.*;
@@ -34,12 +35,12 @@ public class ExamServiceImpl implements ExamService{
     private final SubmitRepository submitRepository;
 
     @Override
-    public List<TemplateRes> getPopularTemplate() {
+    public List<TemplatePopularDto> getPopularTemplate() {
         List<TemplateDto> templateDtoList = examRepository.getPopularTemplate();
-        List<TemplateRes> templateResList = templateDtoList.stream().map(tp -> new TemplateRes(tp.getTitle(), tp.getDate(), tp.getScrap(), tp.getCnt(), tp.getThumbnail(),
+        List<TemplatePopularDto> templatePopularDtoList = templateDtoList.stream().map(tp -> new TemplatePopularDto(tp.getTitle(), tp.getDate(), tp.getScrap(), tp.getCnt(), tp.getThumbnail(),
                 String.valueOf(tp.getRef()), String.valueOf(tp.getId()))).collect(Collectors.toList());
         //String.valueOf가 아니라 암호화
-        return templateResList;
+        return templatePopularDtoList;
     }
 
     @Override
