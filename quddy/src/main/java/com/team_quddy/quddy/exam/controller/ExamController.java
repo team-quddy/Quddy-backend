@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class ExamController {
     private final ExamService examService;
+    @PostMapping("template")
+    public ExamsRes getTemplate(@RequestBody SearchOption searchOption) {
+        return new ExamsRes(examService.getTemplate());
+    }
+
 
     @GetMapping("/template/popular")
     public ExamsRes getPopularTemplate() {

@@ -9,6 +9,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team_quddy.quddy.exam.domain.Exam;
 import com.team_quddy.quddy.exam.domain.QExam;
 import com.team_quddy.quddy.exam.domain.dto.TemplateDto;
+import com.team_quddy.quddy.exam.domain.dto.TemplateListDto;
+import com.team_quddy.quddy.exam.domain.dto.TemplatePopularDto;
 import com.team_quddy.quddy.exam.domain.response.MyExam;
 import com.team_quddy.quddy.exam.domain.response.TemplateDetailRes;
 import com.team_quddy.quddy.global.search.SearchOption;
@@ -37,6 +39,19 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
 
     public ExamRepositoryCustomImpl(EntityManager entityManager) {
         this.queryFactory = new JPAQueryFactory(entityManager);
+    }
+
+    @Override
+    public List<TemplateListDto> getTemplate() {
+        List<Exam> exams =
+                queryFactory.select(QExam.exam).from(QExam.exam)
+                        .leftJoin(QExam.exam.users, QUsers.users).fetchJoin()
+                        .where(QExam.exam.isPublic.eq(Boolean.TRUE))
+                        .fetch();
+        List<TemplateListDto> templateListDtoList= exams.stream()
+                .map(t -> new TemplateListDto(t.getTitle(), t.getUsers().getNickname(), t.getCreatedDate(),
+                        t.getScrap(), t.getCnt(), t.getThumbnail(), String.valueOf(t.getRef()), t.getId())).collect(Collectors.toList());
+        return templateListDtoList;
     }
 
     @Override

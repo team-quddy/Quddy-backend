@@ -2,6 +2,7 @@ package com.team_quddy.quddy.exam.service;
 
 import com.team_quddy.quddy.exam.domain.Exam;
 import com.team_quddy.quddy.exam.domain.dto.TemplateDto;
+import com.team_quddy.quddy.exam.domain.dto.TemplateListDto;
 import com.team_quddy.quddy.exam.domain.dto.TemplatePopularDto;
 import com.team_quddy.quddy.exam.domain.request.ExamReq;
 import com.team_quddy.quddy.exam.domain.request.GradeReq;
@@ -33,6 +34,11 @@ public class ExamServiceImpl implements ExamService{
     private final ProblemRepository problemRepository;
     private final UsersRepository usersRepository;
     private final SubmitRepository submitRepository;
+
+    @Override
+    public List<TemplateListDto> getTemplate() {
+        return examRepository.getTemplate();
+    }
 
     @Override
     public List<TemplatePopularDto> getPopularTemplate() {
