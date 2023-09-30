@@ -39,7 +39,7 @@ public class ExamController {
         return examService.makeExam(examReq, usersId);
     }
 
-    @GetMapping("/setter")
+    @PostMapping("/setter/exam")
     public ExamsRes getMyExam(@RequestBody SearchOption searchOption, @CookieValue(name = "usersID") String usersId) {
         return new ExamsRes(examService.getMyExams(searchOption, usersId));
     }
