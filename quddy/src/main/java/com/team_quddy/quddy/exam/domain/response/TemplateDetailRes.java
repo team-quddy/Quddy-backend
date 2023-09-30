@@ -11,5 +11,10 @@ import java.util.List;
 public class TemplateDetailRes {
     private String title;
     private String thumbnail;
+    private String date;
+    private Integer cnt;
+    private Integer scrap;
+    private String nickname;
+    private Integer ref;
     private List<ProblemTemplate> problems;
 }

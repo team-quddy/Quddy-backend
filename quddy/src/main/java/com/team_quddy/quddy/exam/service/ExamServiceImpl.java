@@ -44,9 +44,7 @@ public class ExamServiceImpl implements ExamService{
 
     @Override
     public TemplateDetailRes getTemplateDetail(Integer id) {
-        Exam exam = examRepository.getExamById(id);
-
-        return new TemplateDetailRes(exam.getTitle(), exam.getThumbnail(), problemRepository.getProblemTemplate(exam));
+        return examRepository.getTemplateDetail(id);
     }
 
     @Override
@@ -86,7 +84,7 @@ public class ExamServiceImpl implements ExamService{
 
         for (int i = 0; i < examReq.getProblems().size(); i++) {
             ProblemTemplate template = examReq.getProblems().get(i);
-            problemRepository.save(Problem.createProblem(template.getQuestion(), template.getAnswer(), template.getIsObjective(), template.getExImg(), template.getExText(), template.getOpt(), exam));
+            problemRepository.save(Problem.createProblem(template.getQuestion(), template.getAnswer(), template.getObjective(), template.getExImg(), template.getExText(), template.getOpt(), exam));
         }
         return new ExamIdRes(String.valueOf(exam.getId()));
     }
