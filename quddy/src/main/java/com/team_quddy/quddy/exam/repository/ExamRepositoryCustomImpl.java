@@ -83,12 +83,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         switch (sort) {
             case "latest":
-                try {
-                    Date parsedDate = dateFormat.parse(String.valueOf(exam.createdDate));
-                    return new OrderSpecifier<Date>(Order.DESC, (Expression<Date>) parsedDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                return new OrderSpecifier<String>(Order.DESC, exam.createdDate);
             case "popular":
                 return new OrderSpecifier<Integer>(Order.DESC, exam.ref);
             default:
@@ -108,6 +103,6 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
                         (tp.getQuestion(), tp.getAnswer(), tp.getExImg(), tp.getExText(), tp.getIsObjective(), tp.getOpt()))
                 .collect(Collectors.toList());
         return new TemplateDetailRes(exam.getTitle(), exam.getThumbnail(), exam.getCreatedDate(), exam.getCnt(),
-                exam.getScrap(), exam.getUsers().getNickname(), exam.getRef(), list);
+                exam.getScrap(), exam.getUsers().getNickname(), String.valueOf(exam.getRef()), list);
     }
 }
