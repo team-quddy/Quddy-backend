@@ -15,6 +15,6 @@ public class TemplateDetailRes {
     private Integer cnt;
     private Integer scrap;
     private String nickname;
-    private Integer ref;
+    private String ref;
     private List<ProblemTemplate> problems;
 }

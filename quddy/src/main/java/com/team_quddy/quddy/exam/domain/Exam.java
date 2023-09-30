@@ -24,7 +24,7 @@ public class Exam {
     private Boolean isPublic;
     private Integer scrap;
     private Integer cnt;
-    private Integer ref;
+    private String ref;
     private String thumbnail;
 
     @OneToMany(mappedBy = "exam")
@@ -48,7 +48,7 @@ public class Exam {
         this.isPublic = isPublic;
         this.scrap = 0;
         this.cnt = cnt;
-        this.ref = Integer.parseInt(ref);
+        this.ref = ref;
         this.thumbnail = thumbnail;
     }
 

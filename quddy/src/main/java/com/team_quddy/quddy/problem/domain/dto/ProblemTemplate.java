@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class ProblemTemplate {
     private String question;
     private String answer;
