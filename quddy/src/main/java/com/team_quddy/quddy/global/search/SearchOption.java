@@ -7,6 +7,6 @@ public class SearchOption {
     private String keyword;
     private String target;
     private String sort;
-    private String lastIdx;
+    private String page;
     private Integer size;
 }
