@@ -44,7 +44,7 @@ public class ExamServiceImpl implements ExamService{
     public List<TemplatePopularDto> getPopularTemplate() {
         List<TemplateDto> templateDtoList = examRepository.getPopularTemplate();
         List<TemplatePopularDto> templatePopularDtoList = templateDtoList.stream().map(tp -> new TemplatePopularDto(tp.getTitle(), tp.getDate(), tp.getScrap(), tp.getCnt(), tp.getThumbnail(),
-                String.valueOf(tp.getRef()), String.valueOf(tp.getId()))).collect(Collectors.toList());
+                tp.getRef(), String.valueOf(tp.getId()))).collect(Collectors.toList());
         //String.valueOf가 아니라 암호화
         return templatePopularDtoList;
     }

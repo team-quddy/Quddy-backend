@@ -12,6 +12,6 @@ public class TemplateDto {
     private Integer scrap;
     private Integer cnt;
     private String thumbnail;
-    private Integer ref;
+    private String ref;
     private Integer id;
 }
