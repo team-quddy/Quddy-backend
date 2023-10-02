@@ -5,6 +5,7 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team_quddy.quddy.exam.domain.Exam;
 import com.team_quddy.quddy.exam.domain.QExam;
@@ -100,7 +101,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
             case "latest":
                 return new OrderSpecifier<String>(Order.DESC, exam.createdDate);
             case "popular":
-                return new OrderSpecifier<Integer>(Order.DESC, exam.ref);
+                return new OrderSpecifier<Integer>(Order.DESC, Expressions.numberTemplate(Integer.class, "{0}", exam.ref));
             default:
                 return null;
         }
