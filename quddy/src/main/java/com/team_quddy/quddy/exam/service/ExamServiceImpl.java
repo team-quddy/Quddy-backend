@@ -74,6 +74,7 @@ public class ExamServiceImpl implements ExamService{
         for (int i = 0; i < sheet.size(); i++) {
             Boolean isCorrect = false;
             if (sheet.get(i).getAnswer().equals(exam.getProblems().get(i).getAnswer())) {
+                exam.getProblems().get(i).addCnt();
                 correct++;
                 isCorrect = true;
             }
@@ -101,5 +102,10 @@ public class ExamServiceImpl implements ExamService{
         Users users = usersRepository.getUsersById(Integer.parseInt(usersId));
 
         return examRepository.getMyExams(searchOption, users);
+    }
+
+    @Override
+    public ExamResultRes getResult(Integer id, String userId) {
+        return examRepository.getResult(id, Integer.parseInt(userId));
     }
 }

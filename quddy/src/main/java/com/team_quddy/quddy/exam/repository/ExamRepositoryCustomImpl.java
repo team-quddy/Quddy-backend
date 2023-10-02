@@ -1,22 +1,25 @@
 package com.team_quddy.quddy.exam.repository;
 
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Projections;
+import com.querydsl.core.Tuple;
+import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team_quddy.quddy.exam.domain.Exam;
 import com.team_quddy.quddy.exam.domain.QExam;
 import com.team_quddy.quddy.exam.domain.dto.TemplateDto;
 import com.team_quddy.quddy.exam.domain.dto.TemplateListDto;
 import com.team_quddy.quddy.exam.domain.dto.TemplatePopularDto;
+import com.team_quddy.quddy.exam.domain.response.ExamResultRes;
 import com.team_quddy.quddy.exam.domain.response.MyExam;
 import com.team_quddy.quddy.exam.domain.response.TemplateDetailRes;
 import com.team_quddy.quddy.global.search.SearchOption;
 import com.team_quddy.quddy.problem.domain.QProblem;
+import com.team_quddy.quddy.problem.domain.dto.ProblemResultDto;
 import com.team_quddy.quddy.problem.domain.dto.ProblemTemplate;
+import com.team_quddy.quddy.submit.domain.QSubmit;
 import com.team_quddy.quddy.user.domain.QUsers;
 import com.team_quddy.quddy.user.domain.Users;
 import lombok.Data;
@@ -32,6 +35,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.team_quddy.quddy.exam.domain.QExam.exam;
+import static com.team_quddy.quddy.problem.domain.QProblem.problem;
+import static com.team_quddy.quddy.submit.domain.QSubmit.submit;
+
 
 
 @Slf4j
@@ -120,5 +126,21 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
                 .collect(Collectors.toList());
         return new TemplateDetailRes(exam.getTitle(), exam.getThumbnail(), exam.getCreatedDate(), exam.getCnt(),
                 exam.getScrap(), exam.getUsers().getNickname(), String.valueOf(exam.getRef()), list);
+    }
+
+    @Override
+    public ExamResultRes getResult(Integer id, Integer usersId) {
+        Exam exam =
+                queryFactory.select(QExam.exam).from(QExam.exam)
+                        .leftJoin(QExam.exam.problems, QProblem.problem).fetchJoin()
+                        .leftJoin(QExam.exam.users, QUsers.users).fetchJoin()
+                        .where(QExam.exam.id.eq(id)).fetchOne();
+
+        List<ProblemResultDto> list = exam.getProblems().stream()
+                .map(p -> new ProblemResultDto(p.getQuestion(), p.getAnswer(), p.getExImg(), p.getExText(), p.getIsObjective(), p.getOpt(), p.getCnt()))
+                .collect(Collectors.toList());
+
+        return new ExamResultRes(exam.getTitle(), exam.getThumbnail(), exam.getCreatedDate(), exam.getCnt(), exam.getScrap(), exam.getUsers().getNickname(),
+                exam.getRef(), list);
     }
 }

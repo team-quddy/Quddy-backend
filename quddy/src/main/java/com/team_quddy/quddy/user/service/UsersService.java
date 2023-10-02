@@ -10,4 +10,6 @@ public interface UsersService {
     String register(Users users);
 
     void setCookie(HttpServletResponse response, String encryptedId);
+
+
 }

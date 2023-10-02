@@ -22,4 +22,6 @@ public interface ExamService {
     ExamIdRes makeExam(ExamReq examReq, String usersId);
 
     List<MyExam> getMyExams(SearchOption searchOption, String usersId);
+
+    ExamResultRes getResult(Integer id, String userId);
 }

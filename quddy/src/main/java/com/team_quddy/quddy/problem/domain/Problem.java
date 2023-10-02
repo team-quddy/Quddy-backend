@@ -26,6 +26,7 @@ public class Problem {
     private String exImg;
     private String exText;
     private String opt;
+    private Integer cnt;
 
     @OneToMany(mappedBy = "problem")
     List<Submit> submits = new ArrayList<>();
@@ -49,12 +50,17 @@ public class Problem {
         this.exImg = exImg;
         this.exText = exText;
         this.opt = opt;
+        this.cnt = 0;
     }
 
     public static Problem createProblem(String question, String answer, Boolean isObjective, String exImg, String exText, String opt, Exam exam) {
         Problem problem = new Problem(question, answer, isObjective, exImg, exText, opt);
         problem.setExam(exam);
         return problem;
+    }
+
+    public void addCnt(){
+        this.cnt++;
     }
 
 }

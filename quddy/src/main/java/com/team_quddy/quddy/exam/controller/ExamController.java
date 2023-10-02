@@ -49,4 +49,9 @@ public class ExamController {
         return new ExamsRes(examService.getMyExams(searchOption, usersId));
     }
 
+    @GetMapping("/setter/info/{id}")
+    public ExamResultRes getResult(@PathVariable(name = "id") Integer id, @CookieValue(name = "usersID") String usersId) {
+        return examService.getResult(id, usersId);
+    }
+
 }
