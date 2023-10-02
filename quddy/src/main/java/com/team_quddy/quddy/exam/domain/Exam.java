@@ -25,6 +25,7 @@ public class Exam {
     private Integer scrap;
     private Integer cnt;
     private String ref;
+    @Column(columnDefinition = "LONGTEXT")
     private String thumbnail;
 
     @OneToMany(mappedBy = "exam")
