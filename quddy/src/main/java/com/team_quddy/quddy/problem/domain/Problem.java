@@ -22,6 +22,7 @@ public class Problem {
     private String question;
     private String answer;
     private Boolean isObjective;
+    @Column(columnDefinition = "LONGTEXT")
     private String exImg;
     private String exText;
     private String opt;
