@@ -26,7 +26,7 @@ public class UsersServiceImpl implements UsersService{
         Cookie cookie = new Cookie("usersID", encryptedId);
         cookie.setDomain("localhost");
         cookie.setPath("/");
-        cookie.setMaxAge(3600);     // 1시간 : 3600. 3600 * 24 * 120
+        cookie.setMaxAge(3600 * 24 * 180);     // 1시간 : 3600. 3600 * 24 * 120
         cookie.setSecure(true);
         response.addCookie(cookie);
     }
