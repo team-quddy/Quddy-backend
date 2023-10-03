@@ -49,11 +49,16 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
     }
 
     @Override
-    public List<TemplateListDto> getTemplate() {
+    public List<TemplateListDto> getTemplate(SearchOption searchOption) {
+        long offset = (long) searchOption.getPage() * searchOption.getSize();
         List<Exam> exams =
                 queryFactory.select(QExam.exam).from(QExam.exam)
                         .leftJoin(QExam.exam.users, QUsers.users).fetchJoin()
                         .where(QExam.exam.isPublic.eq(Boolean.TRUE))
+                        .where(titleSearch(searchOption.getKeyword()))
+                        .orderBy(orderOption(searchOption.getSort()))
+                        .offset(offset)
+                        .limit(searchOption.getSize())
                         .fetch();
         List<TemplateListDto> templateListDtoList= exams.stream()
                 .map(t -> new TemplateListDto(t.getTitle(), t.getUsers().getNickname(), t.getCreatedDate(),
@@ -80,6 +85,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
         return templateDtoList;
     }
     public List<MyExam> getMyExams(SearchOption searchOption, Users users) {
+        long offset = (long) searchOption.getPage() * searchOption.getSize();
         List<MyExam> examList =
                 queryFactory.select(Projections.fields(MyExam.class,
                                 exam.title,
@@ -93,6 +99,8 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
                         )).from(exam)
                         .where(exam.users.eq(users), titleSearch(searchOption.getKeyword()))
                         .orderBy(orderOption(searchOption.getSort()))
+                        .offset(offset)
+                        .limit(searchOption.getSize())
                         .fetch();
         return examList;
     }
@@ -104,12 +112,10 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
     private OrderSpecifier<?> orderOption(String sort) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         switch (sort) {
-            case "latest":
-                return new OrderSpecifier<String>(Order.DESC, exam.createdDate);
             case "popular":
-                return new OrderSpecifier<Integer>(Order.DESC, Expressions.numberTemplate(Integer.class, "{0}", exam.ref));
+                return new OrderSpecifier<Integer>(Order.DESC, exam.cnt);
             default:
-                return null;
+                return new OrderSpecifier<String>(Order.DESC, exam.createdDate);
         }
     }
 

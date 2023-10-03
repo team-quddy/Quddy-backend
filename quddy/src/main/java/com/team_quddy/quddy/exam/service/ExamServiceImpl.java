@@ -36,8 +36,8 @@ public class ExamServiceImpl implements ExamService{
     private final SubmitRepository submitRepository;
 
     @Override
-    public List<TemplateListDto> getTemplate() {
-        return examRepository.getTemplate();
+    public List<TemplateListDto> getTemplate(SearchOption searchOption) {
+        return examRepository.getTemplate(searchOption);
     }
 
     @Override

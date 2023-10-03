@@ -15,7 +15,7 @@ public class ExamController {
     private final ExamService examService;
     @PostMapping("template")
     public ExamsRes getTemplate(@RequestBody SearchOption searchOption) {
-        return new ExamsRes(examService.getTemplate());
+        return new ExamsRes(examService.getTemplate(searchOption));
     }
 
 

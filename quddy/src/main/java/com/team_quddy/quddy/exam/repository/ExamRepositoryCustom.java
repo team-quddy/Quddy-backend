@@ -12,7 +12,7 @@ import com.team_quddy.quddy.user.domain.Users;
 import java.util.List;
 
 public interface ExamRepositoryCustom {
-    List<TemplateListDto> getTemplate();
+    List<TemplateListDto> getTemplate(SearchOption searchOption);
     List<TemplateDto> getPopularTemplate();
 
     List<MyExam> getMyExams(SearchOption searchOption, Users users);

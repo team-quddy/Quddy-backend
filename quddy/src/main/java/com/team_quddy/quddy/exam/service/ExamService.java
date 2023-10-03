@@ -10,7 +10,7 @@ import com.team_quddy.quddy.global.search.SearchOption;
 import java.util.List;
 
 public interface ExamService {
-    List<TemplateListDto> getTemplate();
+    List<TemplateListDto> getTemplate(SearchOption searchOption);
     List<TemplatePopularDto> getPopularTemplate();
 
     TemplateDetailRes getTemplateDetail(Integer id);
