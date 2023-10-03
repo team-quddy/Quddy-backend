@@ -3,6 +3,7 @@ package com.team_quddy.quddy.user.service;
 import com.team_quddy.quddy.user.domain.Users;
 import com.team_quddy.quddy.user.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
@@ -22,9 +23,10 @@ public class UsersServiceImpl implements UsersService{
     }
 
     @Override
-    public void setCookie(HttpServletResponse response, String encryptedId) {
+    public void setCookie(HttpServletResponse response, String encryptedId, String domain) {
+        System.out.println("--------------domain : " + domain);
         Cookie cookie = new Cookie("usersID", encryptedId);
-        cookie.setDomain("localhost");
+        cookie.setDomain(domain);
         cookie.setPath("/");
         cookie.setMaxAge(3600 * 24 * 180);     // 1시간 : 3600. 3600 * 24 * 120
         cookie.setSecure(true);

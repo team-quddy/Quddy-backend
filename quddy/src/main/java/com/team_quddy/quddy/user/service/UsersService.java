@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 public interface UsersService {
     String register(Users users);
 
-    void setCookie(HttpServletResponse response, String encryptedId);
+    void setCookie(HttpServletResponse response, String encryptedId, String domain);
 
 
 }
