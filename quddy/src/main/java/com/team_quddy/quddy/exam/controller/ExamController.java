@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class ExamController {
     private final ExamService examService;
-    @PostMapping("template")
-    public ExamsRes getTemplate(@RequestBody SearchOption searchOption) {
+    @GetMapping("template")
+    public ExamsRes getTemplate(SearchOption searchOption) {
         return new ExamsRes(examService.getTemplate(searchOption));
     }
 
@@ -44,8 +44,8 @@ public class ExamController {
         return examService.makeExam(examReq, usersId);
     }
 
-    @PostMapping("/setter/exam")
-    public ExamsRes getMyExam(@RequestBody SearchOption searchOption, @CookieValue(name = "usersID") String usersId) {
+    @GetMapping("/setter/exam")
+    public ExamsRes getMyExam(SearchOption searchOption, @CookieValue(name = "usersID") String usersId) {
         return new ExamsRes(examService.getMyExams(searchOption, usersId));
     }
 
