@@ -21,7 +21,7 @@ public class UsersServiceImpl implements UsersService{
     @Transactional
     public String register(HttpServletResponse response, UsersReq usersReq, String usersId, String domain) {
         // 쿠키 있는지 확인
-        if (!usersId.equals("NONE")) return "already register";
+        if (!usersId.equals("NONE")) return "already register : " + usersId;
         Users users = new Users(usersReq.getNickname());
         usersRepository.save(users);
         Integer id = users.getId();
@@ -32,7 +32,7 @@ public class UsersServiceImpl implements UsersService{
         cookie.setMaxAge(3600 * 24 * 180);     // 1시간 : 3600. 3600 * 24 * 120
         cookie.setSecure(true);
         response.addCookie(cookie);
-        return "register success";
+        return "register success : " + id;
     }
 
     @Override
