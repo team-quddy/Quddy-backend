@@ -22,7 +22,7 @@ public class UsersController {
                                 @CookieValue(name = "usersID", defaultValue = "NONE") String usersID, @Value("${myapp.domain}") String domain) {
         return usersService.register(response, usersReq, usersID, domain);
     }
-    @GetMapping("/users")
+    @GetMapping("/user")
     public UsersRes getInfo(@CookieValue(name = "usersID") String usersId) {
         log.info("---------------getInfo users id : " + usersId);
         return usersService.getInfo(usersId);
