@@ -18,12 +18,6 @@ public class UsersController {
     @PostMapping()
     public String registerUsers(HttpServletResponse response, @RequestBody UsersReq usersReq,
                                 @CookieValue(name = "usersID", defaultValue = "NONE") String usersID, @Value("${myapp.domain}") String domain) {
-        // 쿠키가 있는지 확인
-        if (usersID.equals("NONE")) {
-            // 없으면 사용자 등록 후 cookie 추가
-            usersService.setCookie(response, usersService.register(new Users(usersReq.getNickname())), domain);
-            return "register success";
-        }
-        return "already register";
+        return usersService.register(response, usersReq, usersID, domain);
     }
 }
