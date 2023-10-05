@@ -2,6 +2,7 @@ package com.team_quddy.quddy.user.service;
 
 import com.team_quddy.quddy.user.domain.Users;
 import com.team_quddy.quddy.user.domain.request.UsersReq;
+import com.team_quddy.quddy.user.domain.response.UsersRes;
 import com.team_quddy.quddy.user.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,5 +33,10 @@ public class UsersServiceImpl implements UsersService{
         cookie.setSecure(true);
         response.addCookie(cookie);
         return "register success";
+    }
+
+    @Override
+    public UsersRes getInfo(String usersId) {
+        return usersRepository.getInfo(Integer.parseInt(usersId));
     }
 }
