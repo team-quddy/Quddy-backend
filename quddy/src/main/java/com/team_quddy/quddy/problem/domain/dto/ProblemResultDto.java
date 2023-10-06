@@ -10,7 +10,7 @@ public class ProblemResultDto {
     private String answer;
     private String exImg;
     private String exText;
-    private Boolean objective;
+    private Boolean isObjective;
     private String opt;
     private Integer correct;
 }

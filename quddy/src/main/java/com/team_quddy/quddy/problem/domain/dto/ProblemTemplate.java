@@ -12,6 +12,6 @@ public class ProblemTemplate {
     private String answer;
     private String exImg;
     private String exText;
-    private Boolean objective;
+    private Boolean isObjective;
     private String opt;
 }
