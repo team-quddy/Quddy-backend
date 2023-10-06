@@ -5,9 +5,16 @@ import com.team_quddy.quddy.exam.domain.request.GradeReq;
 import com.team_quddy.quddy.exam.domain.response.*;
 import com.team_quddy.quddy.exam.service.ExamService;
 import com.team_quddy.quddy.global.search.SearchOption;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -43,7 +50,7 @@ public class ExamController {
         return examService.getGrade(gradeReq, usersId);
     }
 
-    @PostMapping("/setter")
+    @PostMapping("/setter/exam")
     public ExamIdRes makeExam(@RequestBody ExamReq examReq, @CookieValue(name = "usersID") String usersId) {
         log.info("---------------makeExam users id : " + usersId);
         return examService.makeExam(examReq, usersId);
@@ -55,7 +62,7 @@ public class ExamController {
         return new ExamsRes(examService.getMyExams(searchOption, usersId));
     }
 
-    @GetMapping("/setter/info/{id}")
+    @GetMapping("/setter/exam/{id}")
     public ExamResultRes getResult(@PathVariable(name = "id") Integer id, @CookieValue(name = "usersID") String usersId) {
         log.info("---------------getResult users id : " + usersId);
         return examService.getResult(id, usersId);
