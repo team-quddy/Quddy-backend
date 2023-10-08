@@ -12,6 +12,7 @@ public class ExamResultRes {
     private String title;
     private String thumbnail;
     private String date;
+    private Boolean isPublic;
     private Integer cnt;
     private Integer scrap;
     private String nickname;
