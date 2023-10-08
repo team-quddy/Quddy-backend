@@ -4,11 +4,16 @@ import com.team_quddy.quddy.exam.domain.request.ExamReq;
 import com.team_quddy.quddy.exam.domain.request.GradeReq;
 import com.team_quddy.quddy.exam.domain.response.*;
 import com.team_quddy.quddy.exam.service.ExamService;
+import com.team_quddy.quddy.global.exception.MyException;
 import com.team_quddy.quddy.global.search.SearchOption;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 
 @Api
@@ -29,9 +34,13 @@ public class ExamController {
     }
 
     @GetMapping("/template/{id}")
-    public TemplateDetailRes getTemplateDetail(@PathVariable Integer id) {
+    public ResponseEntity<?> getTemplateDetail(@PathVariable Integer id, @CookieValue(name = "usersID") String usersId) {
         log.info("---------------template id : " + id);
-        return examService.getTemplateDetail(id);
+        try {
+            return new ResponseEntity<>(examService.getTemplateDetail(id, usersId), HttpStatus.OK);
+        } catch (MyException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/solver/exam/{id}")
@@ -59,9 +68,13 @@ public class ExamController {
     }
 
     @GetMapping("/setter/exam/{id}")
-    public ExamResultRes getResult(@PathVariable(name = "id") Integer id, @CookieValue(name = "usersID") String usersId) {
+    public ResponseEntity<?> getResult(@PathVariable(name = "id") Integer id, @CookieValue(name = "usersID") String usersId) {
         log.info("---------------getResult users id : " + usersId);
-        return examService.getResult(id, usersId);
+        try {
+            return new ResponseEntity<>(examService.getResult(id, usersId), HttpStatus.OK);
+        } catch (MyException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
