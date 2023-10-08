@@ -4,12 +4,14 @@ import com.team_quddy.quddy.user.domain.Users;
 import com.team_quddy.quddy.user.domain.request.UsersReq;
 import com.team_quddy.quddy.user.domain.response.UsersRes;
 import com.team_quddy.quddy.user.service.UsersService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+@Api
 @Slf4j
 @RestController
 @RequiredArgsConstructor

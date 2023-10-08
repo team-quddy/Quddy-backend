@@ -5,16 +5,13 @@ import com.team_quddy.quddy.exam.domain.request.GradeReq;
 import com.team_quddy.quddy.exam.domain.response.*;
 import com.team_quddy.quddy.exam.service.ExamService;
 import com.team_quddy.quddy.global.search.SearchOption;
-import lombok.Getter;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 
+@Api
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +22,6 @@ public class ExamController {
     public ExamsRes getTemplate(SearchOption searchOption) {
         return new ExamsRes(examService.getTemplate(searchOption));
     }
-
 
     @GetMapping("/template/popular")
     public ExamsRes getPopularTemplate() {
