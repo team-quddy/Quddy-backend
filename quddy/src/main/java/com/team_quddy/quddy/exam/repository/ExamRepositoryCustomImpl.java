@@ -15,6 +15,7 @@ import com.team_quddy.quddy.exam.domain.dto.TemplatePopularDto;
 import com.team_quddy.quddy.exam.domain.response.ExamResultRes;
 import com.team_quddy.quddy.exam.domain.response.MyExam;
 import com.team_quddy.quddy.exam.domain.response.TemplateDetailRes;
+import com.team_quddy.quddy.global.exception.MyException;
 import com.team_quddy.quddy.global.search.SearchOption;
 import com.team_quddy.quddy.problem.domain.QProblem;
 import com.team_quddy.quddy.problem.domain.dto.ProblemResultDto;
@@ -120,12 +121,17 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
     }
 
     @Override
-    public TemplateDetailRes getTemplateDetail(Integer id) {
+    public TemplateDetailRes getTemplateDetail(Integer id, Integer usersId) throws MyException{
         Exam exam =
                 queryFactory.select(QExam.exam).from(QExam.exam)
                         .leftJoin(QExam.exam.problems, QProblem.problem).fetchJoin()
                         .leftJoin(QExam.exam.users, QUsers.users).fetchJoin()
                         .where(QExam.exam.id.eq(id)).fetchOne();
+
+        if (!exam.getIsPublic()) {
+            throw new MyException("잘못된 접근입니다 : 비공개 문제집에 접근");
+        }
+
         List<ProblemTemplate> list = exam.getProblems().stream()
                 .map(tp -> new ProblemTemplate
                         (tp.getQuestion(), tp.getAnswer(), tp.getExImg(), tp.getExText(), tp.getIsObjective(), tp.getOpt()))
@@ -135,12 +141,16 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
     }
 
     @Override
-    public ExamResultRes getResult(Integer id, Integer usersId) {
+    public ExamResultRes getResult(Integer id, Integer usersId) throws MyException{
         Exam exam =
                 queryFactory.select(QExam.exam).from(QExam.exam)
                         .leftJoin(QExam.exam.problems, QProblem.problem).fetchJoin()
                         .leftJoin(QExam.exam.users, QUsers.users).fetchJoin()
                         .where(QExam.exam.id.eq(id)).fetchOne();
+
+        if (exam.getId() != usersId) {
+            throw new MyException("잘못된 접근입니다 : 다른 사용자의 문제집에 접근");
+        }
 
         List<ProblemResultDto> list = exam.getProblems().stream()
                 .map(p -> new ProblemResultDto(p.getQuestion(), p.getAnswer(), p.getExImg(), p.getExText(), p.getIsObjective(), p.getOpt(), p.getCnt()))

@@ -13,7 +13,7 @@ public interface ExamService {
     List<TemplateListDto> getTemplate(SearchOption searchOption);
     List<TemplatePopularDto> getPopularTemplate();
 
-    TemplateDetailRes getTemplateDetail(Integer id);
+    TemplateDetailRes getTemplateDetail(Integer id, String usersId);
 
     ExamRes getExam(Integer id);
 

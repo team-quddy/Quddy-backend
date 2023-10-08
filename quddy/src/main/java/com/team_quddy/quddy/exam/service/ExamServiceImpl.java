@@ -8,6 +8,7 @@ import com.team_quddy.quddy.exam.domain.request.ExamReq;
 import com.team_quddy.quddy.exam.domain.request.GradeReq;
 import com.team_quddy.quddy.exam.domain.response.*;
 import com.team_quddy.quddy.exam.repository.ExamRepository;
+import com.team_quddy.quddy.global.exception.MyException;
 import com.team_quddy.quddy.global.search.SearchOption;
 import com.team_quddy.quddy.problem.domain.Problem;
 import com.team_quddy.quddy.problem.domain.dto.ProblemGradeDto;
@@ -50,8 +51,8 @@ public class ExamServiceImpl implements ExamService{
     }
 
     @Override
-    public TemplateDetailRes getTemplateDetail(Integer id) {
-        return examRepository.getTemplateDetail(id);
+    public TemplateDetailRes getTemplateDetail(Integer id, String usersId) throws MyException{
+        return examRepository.getTemplateDetail(id, Integer.parseInt(usersId));
     }
 
     @Override
@@ -105,7 +106,7 @@ public class ExamServiceImpl implements ExamService{
     }
 
     @Override
-    public ExamResultRes getResult(Integer id, String userId) {
+    public ExamResultRes getResult(Integer id, String userId) throws MyException{
         return examRepository.getResult(id, Integer.parseInt(userId));
     }
 }
