@@ -51,8 +51,8 @@ public class ExamServiceImpl implements ExamService{
     }
 
     @Override
-    public TemplateDetailRes getTemplateDetail(Integer id, String usersId) throws MyException{
-        return examRepository.getTemplateDetail(id, Integer.parseInt(usersId));
+    public TemplateDetailRes getTemplateDetail(Integer id) throws MyException{
+        return examRepository.getTemplateDetail(id);
     }
 
     @Override

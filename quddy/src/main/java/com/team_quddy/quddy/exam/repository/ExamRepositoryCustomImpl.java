@@ -121,7 +121,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
     }
 
     @Override
-    public TemplateDetailRes getTemplateDetail(Integer id, Integer usersId) throws MyException{
+    public TemplateDetailRes getTemplateDetail(Integer id) throws MyException{
         Exam exam =
                 queryFactory.select(QExam.exam).from(QExam.exam)
                         .leftJoin(QExam.exam.problems, QProblem.problem).fetchJoin()

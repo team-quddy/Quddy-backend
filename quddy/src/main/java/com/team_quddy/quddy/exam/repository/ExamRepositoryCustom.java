@@ -17,7 +17,7 @@ public interface ExamRepositoryCustom {
 
     List<MyExam> getMyExams(SearchOption searchOption, Users users);
 
-    TemplateDetailRes getTemplateDetail(Integer id, Integer usersId);
+    TemplateDetailRes getTemplateDetail(Integer id);
 
     ExamResultRes getResult(Integer id, Integer usersId);
 }

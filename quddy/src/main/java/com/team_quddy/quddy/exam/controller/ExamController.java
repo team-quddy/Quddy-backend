@@ -34,10 +34,10 @@ public class ExamController {
     }
 
     @GetMapping("/template/{id}")
-    public ResponseEntity<?> getTemplateDetail(@PathVariable Integer id, @CookieValue(name = "usersID") String usersId) {
+    public ResponseEntity<?> getTemplateDetail(@PathVariable Integer id) {
         log.info("---------------template id : " + id);
         try {
-            return new ResponseEntity<>(examService.getTemplateDetail(id, usersId), HttpStatus.OK);
+            return new ResponseEntity<>(examService.getTemplateDetail(id), HttpStatus.OK);
         } catch (MyException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
