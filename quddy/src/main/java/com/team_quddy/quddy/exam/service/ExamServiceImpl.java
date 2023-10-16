@@ -1,6 +1,7 @@
 package com.team_quddy.quddy.exam.service;
 
 import com.team_quddy.quddy.exam.domain.Exam;
+import com.team_quddy.quddy.exam.domain.dto.ExamDto;
 import com.team_quddy.quddy.exam.domain.dto.TemplateDto;
 import com.team_quddy.quddy.exam.domain.dto.TemplateListDto;
 import com.team_quddy.quddy.exam.domain.dto.TemplatePopularDto;
@@ -8,6 +9,7 @@ import com.team_quddy.quddy.exam.domain.request.ExamReq;
 import com.team_quddy.quddy.exam.domain.request.GradeReq;
 import com.team_quddy.quddy.exam.domain.response.*;
 import com.team_quddy.quddy.exam.repository.ExamRepository;
+import com.team_quddy.quddy.global.cipher.CipherService;
 import com.team_quddy.quddy.global.exception.MyException;
 import com.team_quddy.quddy.global.search.SearchOption;
 import com.team_quddy.quddy.problem.domain.Problem;
@@ -36,6 +38,8 @@ public class ExamServiceImpl implements ExamService{
     private final UsersRepository usersRepository;
     private final SubmitRepository submitRepository;
 
+    private final CipherService cipherService;
+
     @Override
     public List<TemplateListDto> getTemplate(SearchOption searchOption) {
         return examRepository.getTemplate(searchOption);
@@ -56,10 +60,16 @@ public class ExamServiceImpl implements ExamService{
     }
 
     @Override
-    public ExamRes getExam(Integer id) {
-        Exam exam = examRepository.getExamById(id);
-
-        return new ExamRes(exam.getTitle(), exam.getCreatedDate(), problemRepository.getProblems(exam));
+    public ExamRes getExam(Integer id, String usersId, String secret) throws Exception{
+        ExamDto exam = examRepository.getExam(id);
+        Boolean isSolved = submitRepository.getSubmit(id, Integer.parseInt(usersId));
+        String result = null;
+        if (isSolved) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(id).append(" ").append(usersId);
+            result = cipherService.encode(sb.toString(), secret);
+        }
+        return new ExamRes(result, exam);
     }
 
     @Override

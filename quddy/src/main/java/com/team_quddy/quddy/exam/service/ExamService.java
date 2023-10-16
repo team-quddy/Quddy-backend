@@ -15,7 +15,7 @@ public interface ExamService {
 
     TemplateDetailRes getTemplateDetail(Integer id);
 
-    ExamRes getExam(Integer id);
+    ExamRes getExam(Integer id, String usersId, String secret) throws Exception;
 
     GradeRes getGrade(GradeReq gradeReq, String usersId);
 

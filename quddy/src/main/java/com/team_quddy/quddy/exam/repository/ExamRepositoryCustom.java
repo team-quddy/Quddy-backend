@@ -1,5 +1,6 @@
 package com.team_quddy.quddy.exam.repository;
 
+import com.team_quddy.quddy.exam.domain.dto.ExamDto;
 import com.team_quddy.quddy.exam.domain.dto.TemplateDto;
 import com.team_quddy.quddy.exam.domain.dto.TemplateListDto;
 import com.team_quddy.quddy.exam.domain.dto.TemplatePopularDto;
@@ -19,5 +20,6 @@ public interface ExamRepositoryCustom {
 
     TemplateDetailRes getTemplateDetail(Integer id);
 
+    ExamDto getExam(Integer id);
     ExamResultRes getResult(Integer id, Integer usersId);
 }

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class ProblemsDto {
     private Integer id;
     private String question;

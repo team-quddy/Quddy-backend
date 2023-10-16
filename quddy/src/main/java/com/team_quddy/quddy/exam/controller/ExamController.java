@@ -8,6 +8,7 @@ import com.team_quddy.quddy.global.exception.MyException;
 import com.team_quddy.quddy.global.search.SearchOption;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,9 +45,13 @@ public class ExamController {
     }
 
     @GetMapping("/solver/exam/{id}")
-    public ExamRes getExam(@PathVariable Integer id) {
+    public ResponseEntity<?> getExam(@PathVariable Integer id, @CookieValue(name = "usersID") String usersId, @Value("${myapp.secret") String secret) {
         log.info("---------------exam id : " + id);
-        return examService.getExam(id);
+        try {
+            return new ResponseEntity<>(examService.getExam(id, usersId, secret), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/solver")
