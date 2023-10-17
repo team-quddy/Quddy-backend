@@ -14,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-
 
 @Api
 @Slf4j
@@ -45,7 +43,7 @@ public class ExamController {
     }
 
     @GetMapping("/solver/exam/{id}")
-    public ResponseEntity<?> getExam(@PathVariable Integer id, @CookieValue(name = "usersID") String usersId, @Value("${myapp.secret") String secret) {
+    public ResponseEntity<?> getExam(@PathVariable Integer id, @CookieValue(name = "usersID") String usersId, @Value("${myapp.secret}") String secret) {
         log.info("---------------exam id : " + id);
         try {
             return new ResponseEntity<>(examService.getExam(id, usersId, secret), HttpStatus.OK);
