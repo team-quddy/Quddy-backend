@@ -46,7 +46,11 @@ public class ExamController {
     public ResponseEntity<?> getExam(@PathVariable Integer id, @CookieValue(name = "usersID") String usersId, @Value("${myapp.secret}") String secret) {
         log.info("---------------exam id : " + id);
         try {
-            return new ResponseEntity<>(examService.getExam(id, usersId, secret), HttpStatus.OK);
+            ExamRes exam = examService.getExam(id, usersId, secret);
+            if (exam.getProblems() == null) {
+                return new ResponseEntity<>(new ExamIdRes(exam.getTitle()), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(exam, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

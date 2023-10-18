@@ -1,18 +1,13 @@
 package com.team_quddy.quddy.exam.repository;
 
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.JPAExpressions;
-import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team_quddy.quddy.exam.domain.Exam;
 import com.team_quddy.quddy.exam.domain.QExam;
-import com.team_quddy.quddy.exam.domain.dto.ExamDto;
+import com.team_quddy.quddy.exam.domain.response.ExamRes;
 import com.team_quddy.quddy.exam.domain.dto.TemplateDto;
 import com.team_quddy.quddy.exam.domain.dto.TemplateListDto;
-import com.team_quddy.quddy.exam.domain.dto.TemplatePopularDto;
 import com.team_quddy.quddy.exam.domain.response.ExamResultRes;
 import com.team_quddy.quddy.exam.domain.response.MyExam;
 import com.team_quddy.quddy.exam.domain.response.TemplateDetailRes;
@@ -22,25 +17,17 @@ import com.team_quddy.quddy.problem.domain.QProblem;
 import com.team_quddy.quddy.problem.domain.dto.ProblemResultDto;
 import com.team_quddy.quddy.problem.domain.dto.ProblemTemplate;
 import com.team_quddy.quddy.problem.domain.dto.ProblemsDto;
-import com.team_quddy.quddy.submit.domain.QSubmit;
 import com.team_quddy.quddy.user.domain.QUsers;
 import com.team_quddy.quddy.user.domain.Users;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.team_quddy.quddy.exam.domain.QExam.exam;
-import static com.team_quddy.quddy.problem.domain.QProblem.problem;
-import static com.team_quddy.quddy.submit.domain.QSubmit.submit;
-
 
 
 @Slf4j
@@ -143,7 +130,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
     }
 
     @Override
-    public ExamDto getExam(Integer id) {
+    public ExamRes getExam(Integer id) {
         Exam exam =
                 queryFactory.select(QExam.exam).from(QExam.exam)
                         .leftJoin(QExam.exam.problems, QProblem.problem).fetchJoin()
@@ -152,7 +139,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
         List<ProblemsDto> list = exam.getProblems().stream()
                 .map(p -> new ProblemsDto(p.getId(), p.getQuestion(), p.getExImg(), p.getExText(), p.getIsObjective(), p.getOpt()))
                 .collect(Collectors.toList());
-        return new ExamDto(exam.getTitle(), list);
+        return new ExamRes(exam.getTitle(), list);
     }
 
     @Override
