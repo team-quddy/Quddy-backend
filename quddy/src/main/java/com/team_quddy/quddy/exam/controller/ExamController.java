@@ -85,4 +85,13 @@ public class ExamController {
         }
     }
 
+    @GetMapping("/solver/result/{resultId}")
+    public ResponseEntity<?> getResult(@PathVariable(name = "resultId") String resultId, @Value("${myapp.secret}") String secret) {
+        log.info("------------getResult");
+        try {
+            return new ResponseEntity<>(examService.getResult(resultId, secret), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -117,6 +117,13 @@ public class ExamServiceImpl implements ExamService{
     }
 
     @Override
+    public ExamResultRes getResult(String resultId, String secret) throws Exception {
+        String[] plain = cipherService.decode(resultId, secret).split(" ");
+        log.info("exam id : " + plain[0] + " users id : " + plain[1]);
+        return examRepository.getResult(Integer.parseInt(plain[0]), Integer.parseInt(plain[1]));
+    }
+
+    @Override
     public ExamStatsRes getStats(Integer id, String userId) throws MyException{
         return examRepository.getStats(id, Integer.valueOf(userId));
     }

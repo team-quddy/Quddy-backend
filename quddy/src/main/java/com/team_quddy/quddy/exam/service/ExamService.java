@@ -23,5 +23,6 @@ public interface ExamService {
 
     List<MyExam> getMyExams(SearchOption searchOption, String usersId);
 
+    ExamResultRes getResult(String resultId, String secret) throws Exception;
     ExamStatsRes getStats(Integer id, String userId);
 }

@@ -162,4 +162,57 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
         return new ExamStatsRes(exam.getTitle(), exam.getThumbnail(), exam.getCreatedDate(), exam.getIsPublic(), exam.getCnt(), exam.getScrap(), exam.getUsers().getNickname(),
                 exam.getRef(), list);
     }
+
+    @Override
+    public ExamResultRes getResult(Integer id, Integer usersId) throws MyException{
+        List<ProblemResultTempDto> temp = queryFactory.select(Projections.fields(ProblemResultTempDto.class,
+                        QProblem.problem.id,
+                        QProblem.problem.question,
+                        QProblem.problem.exImg,
+                        QProblem.problem.exText,
+                        QProblem.problem.isObjective,
+                        QProblem.problem.opt,
+                        QProblem.problem.answer,
+                        QSubmit.submit.result,
+                        QSubmit.submit.isCorrect
+                )).from(QSubmit.submit)
+                .join(QSubmit.submit.problem, QProblem.problem)
+                .where(QProblem.problem.exam.id.eq(id).and(QSubmit.submit.users.id.eq(usersId)))
+                .orderBy(QProblem.problem.id.asc())
+                .fetch();
+
+        Integer problemCnt = temp.size();
+        Integer correct = 0;
+
+        List<ProblemResultDto> problems = new ArrayList<>();
+        for (ProblemResultTempDto ptd : temp) {
+            problems.add(new ProblemResultDto(String.valueOf(ptd.getId()), ptd.getQuestion(), ptd.getAnswer(), ptd.getExImg(),
+                    ptd.getExText(), ptd.getIsObjective(), ptd.getOpt(), ptd.getSubmitAnswer()));
+            if (ptd.getIsCorrect()) correct++;
+        }
+        Exam exam =
+                queryFactory.select(QExam.exam).from(QExam.exam)
+                        .leftJoin(QExam.exam.problems, QProblem.problem).fetchJoin()
+                        .leftJoin(QExam.exam.users, QUsers.users).fetchJoin()
+                        .where(QExam.exam.id.eq(id)).fetchOne();
+
+        List<SubmitResultDto> submitResultDtoList = queryFactory.select(Projections.fields(SubmitResultDto.class,
+                        QSubmit.submit.users, QSubmit.submit.count().as("count")))
+                .from(QSubmit.submit)
+                .where(QSubmit.submit.problem.in(exam.getProblems()).and(QSubmit.submit.isCorrect.eq(Boolean.TRUE)))
+                .groupBy(QSubmit.submit.users)
+                .orderBy(QSubmit.submit.count().desc())
+                .fetch();
+
+        Integer total = submitResultDtoList.size();
+
+        Integer rank = -1;
+        for (int i = 0; i < total; i++) {
+            if (Objects.equals(submitResultDtoList.get(i).getUsers().getId(), usersId)) {
+                rank = i + 1;
+            }
+        }
+        Double percentile = (double) rank / total;
+        return new ExamResultRes(new ExamDto(exam.getTitle(), problems), new ResultDto(problemCnt, correct, percentile, total == 1));
+    }
 }

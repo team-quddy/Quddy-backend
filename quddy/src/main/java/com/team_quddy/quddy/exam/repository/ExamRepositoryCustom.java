@@ -18,4 +18,5 @@ public interface ExamRepositoryCustom {
 
     ExamRes getExam(Integer id);
     ExamStatsRes getStats(Integer id, Integer usersId);
+    ExamResultRes getResult(Integer id, Integer usersId);
 }
