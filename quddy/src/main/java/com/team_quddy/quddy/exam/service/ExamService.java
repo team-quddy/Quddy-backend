@@ -23,5 +23,5 @@ public interface ExamService {
 
     List<MyExam> getMyExams(SearchOption searchOption, String usersId);
 
-    ExamResultRes getResult(Integer id, String userId);
+    ExamStatsRes getStats(Integer id, String userId);
 }

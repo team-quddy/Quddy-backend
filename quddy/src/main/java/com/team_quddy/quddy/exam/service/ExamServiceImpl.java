@@ -117,7 +117,7 @@ public class ExamServiceImpl implements ExamService{
     }
 
     @Override
-    public ExamResultRes getResult(Integer id, String userId) throws MyException{
-        return examRepository.getResult(id, Integer.parseInt(userId));
+    public ExamStatsRes getStats(Integer id, String userId) throws MyException{
+        return examRepository.getStats(id, Integer.valueOf(userId));
     }
 }

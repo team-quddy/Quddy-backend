@@ -5,18 +5,17 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team_quddy.quddy.exam.domain.Exam;
 import com.team_quddy.quddy.exam.domain.QExam;
-import com.team_quddy.quddy.exam.domain.response.ExamRes;
+import com.team_quddy.quddy.exam.domain.dto.ExamDto;
+import com.team_quddy.quddy.exam.domain.dto.ResultDto;
+import com.team_quddy.quddy.exam.domain.response.*;
 import com.team_quddy.quddy.exam.domain.dto.TemplateDto;
 import com.team_quddy.quddy.exam.domain.dto.TemplateListDto;
-import com.team_quddy.quddy.exam.domain.response.ExamResultRes;
-import com.team_quddy.quddy.exam.domain.response.MyExam;
-import com.team_quddy.quddy.exam.domain.response.TemplateDetailRes;
 import com.team_quddy.quddy.global.exception.MyException;
 import com.team_quddy.quddy.global.search.SearchOption;
 import com.team_quddy.quddy.problem.domain.QProblem;
-import com.team_quddy.quddy.problem.domain.dto.ProblemResultDto;
-import com.team_quddy.quddy.problem.domain.dto.ProblemTemplate;
-import com.team_quddy.quddy.problem.domain.dto.ProblemsDto;
+import com.team_quddy.quddy.problem.domain.dto.*;
+import com.team_quddy.quddy.submit.domain.QSubmit;
+import com.team_quddy.quddy.submit.domain.dto.SubmitResultDto;
 import com.team_quddy.quddy.user.domain.QUsers;
 import com.team_quddy.quddy.user.domain.Users;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,9 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.team_quddy.quddy.exam.domain.QExam.exam;
@@ -143,22 +144,22 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
     }
 
     @Override
-    public ExamResultRes getResult(Integer id, Integer usersId) throws MyException{
+    public ExamStatsRes getStats(Integer id, Integer usersId) throws MyException{
         Exam exam =
-                queryFactory.select(QExam.exam).from(QExam.exam)
-                        .leftJoin(QExam.exam.problems, QProblem.problem).fetchJoin()
-                        .leftJoin(QExam.exam.users, QUsers.users).fetchJoin()
-                        .where(QExam.exam.id.eq(id)).fetchOne();
+        queryFactory.select(QExam.exam).from(QExam.exam)
+                .leftJoin(QExam.exam.problems, QProblem.problem).fetchJoin()
+                .leftJoin(QExam.exam.users, QUsers.users).fetchJoin()
+                .where(QExam.exam.id.eq(id)).fetchOne();
 
         if (exam.getId() != usersId) {
             throw new MyException("잘못된 접근입니다 : 다른 사용자의 문제집에 접근");
         }
 
-        List<ProblemResultDto> list = exam.getProblems().stream()
-                .map(p -> new ProblemResultDto(p.getQuestion(), p.getAnswer(), p.getExImg(), p.getExText(), p.getIsObjective(), p.getOpt(), p.getCnt()))
+        List<ProblemStatsDto> list = exam.getProblems().stream()
+                .map(p -> new ProblemStatsDto(p.getQuestion(), p.getAnswer(), p.getExImg(), p.getExText(), p.getIsObjective(), p.getOpt(), p.getCnt()))
                 .collect(Collectors.toList());
 
-        return new ExamResultRes(exam.getTitle(), exam.getThumbnail(), exam.getCreatedDate(), exam.getIsPublic(), exam.getCnt(), exam.getScrap(), exam.getUsers().getNickname(),
+        return new ExamStatsRes(exam.getTitle(), exam.getThumbnail(), exam.getCreatedDate(), exam.getIsPublic(), exam.getCnt(), exam.getScrap(), exam.getUsers().getNickname(),
                 exam.getRef(), list);
     }
 }

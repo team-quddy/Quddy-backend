@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class ExamController {
     private final ExamService examService;
+
     @GetMapping("template")
     public ExamsRes getTemplate(SearchOption searchOption) {
         return new ExamsRes(examService.getTemplate(searchOption));
@@ -75,10 +76,10 @@ public class ExamController {
     }
 
     @GetMapping("/setter/exam/{id}")
-    public ResponseEntity<?> getResult(@PathVariable(name = "id") Integer id, @CookieValue(name = "usersID") String usersId) {
-        log.info("---------------getResult users id : " + usersId);
+    public ResponseEntity<?> getStats(@PathVariable(name = "id") Integer id, @CookieValue(name = "usersID") String usersId) {
+        log.info("---------------getStats users id : " + usersId);
         try {
-            return new ResponseEntity<>(examService.getResult(id, usersId), HttpStatus.OK);
+            return new ResponseEntity<>(examService.getStats(id, usersId), HttpStatus.OK);
         } catch (MyException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
