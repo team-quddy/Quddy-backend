@@ -24,6 +24,7 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -197,7 +198,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
                         .where(QExam.exam.id.eq(id)).fetchOne();
 
         List<SubmitResultDto> submitResultDtoList = queryFactory.select(Projections.fields(SubmitResultDto.class,
-                        QSubmit.submit.users, QSubmit.submit.count().as("count")))
+                        QSubmit.submit.users, QSubmit.submit.count().as("acc")))
                 .from(QSubmit.submit)
                 .where(QSubmit.submit.problem.in(exam.getProblems()).and(QSubmit.submit.isCorrect.eq(Boolean.TRUE)))
                 .groupBy(QSubmit.submit.users)
@@ -205,11 +206,24 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
                 .fetch();
 
         Integer total = submitResultDtoList.size();
-
-        Integer rank = -1;
+        int[] ranks = new int[submitResultDtoList.size()];
+        long prevCorrect = submitResultDtoList.get(0).getAcc();
+        int prevPeople = 1;
+        int rank = 1;
+        ranks[0] = rank;
+        for (int i = 1; i < total; i++) {
+            if (prevCorrect == submitResultDtoList.get(i).getAcc()) {
+                prevPeople++;
+            } else {
+                rank += prevPeople;
+                prevCorrect = submitResultDtoList.get(i).getAcc();
+                prevPeople = 1;
+            }
+            ranks[i] = rank;
+        }
         for (int i = 0; i < total; i++) {
-            if (Objects.equals(submitResultDtoList.get(i).getUsers().getId(), usersId)) {
-                rank = i + 1;
+            if (submitResultDtoList.get(i).getUsers().getId() == usersId) {
+                rank = ranks[i];
             }
         }
         Double percentile = (double) rank / total;

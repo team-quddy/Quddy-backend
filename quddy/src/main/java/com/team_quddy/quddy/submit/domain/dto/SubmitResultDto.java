@@ -10,5 +10,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SubmitResultDto {
     private Users users;
-    private Integer acc;
+    private Long acc;
 }
