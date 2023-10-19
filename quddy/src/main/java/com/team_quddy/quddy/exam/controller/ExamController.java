@@ -58,9 +58,14 @@ public class ExamController {
     }
 
     @PostMapping("/solver")
-    public GradeRes getGrade(@RequestBody GradeReq gradeReq, @CookieValue(name = "usersID") String usersId) {
+    public ResponseEntity<?> getGrade(@RequestBody GradeReq gradeReq, @CookieValue(name = "usersID") String usersId) {
         log.info("---------------getGrade users id : " + usersId);
-        return examService.getGrade(gradeReq, usersId);
+        try {
+            GradeRes gradeRes = examService.getGrade(gradeReq, usersId);
+            return new ResponseEntity<GradeRes>(gradeRes, HttpStatus.OK);
+        } catch (MyException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/setter/exam")

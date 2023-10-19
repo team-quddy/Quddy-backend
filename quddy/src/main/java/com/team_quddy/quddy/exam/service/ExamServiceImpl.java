@@ -75,7 +75,11 @@ public class ExamServiceImpl implements ExamService{
 
     @Override
     @Transactional
-    public GradeRes getGrade(GradeReq gradeReq, String usersId) {
+    public GradeRes getGrade(GradeReq gradeReq, String usersId) throws MyException{
+        Boolean isSolved = submitRepository.getSubmit(gradeReq.getExam().getId(), Integer.parseInt(usersId));
+        if (isSolved) {
+            throw new MyException("잘못된 접근입니다 : 이미 응시한 시험입니다.");
+        }
         Exam exam = examRepository.getExamById(gradeReq.getExam().getId());
         Users users = usersRepository.getUsersById(Integer.parseInt(usersId));
         // exam의 problems랑, greadeReq의 problems랑 answer 비교하기
