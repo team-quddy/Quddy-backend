@@ -48,8 +48,8 @@ public class ExamController {
         log.info("---------------exam id : " + id);
         try {
             ExamRes exam = examService.getExam(id, usersId, secret);
-            if (exam.getProblems() == null) {
-                return new ResponseEntity<>(new ExamIdRes(exam.getTitle()), HttpStatus.OK);
+            if (exam.getExam().getProblems() == null) {
+                return new ResponseEntity<>(new ExamIdRes(exam.getExam().getTitle()), HttpStatus.OK);
             }
             return new ResponseEntity<>(exam, HttpStatus.OK);
         } catch (Exception e) {

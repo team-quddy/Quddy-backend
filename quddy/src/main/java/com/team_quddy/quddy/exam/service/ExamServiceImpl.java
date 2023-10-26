@@ -1,6 +1,7 @@
 package com.team_quddy.quddy.exam.service;
 
 import com.team_quddy.quddy.exam.domain.Exam;
+import com.team_quddy.quddy.exam.domain.dto.ExamDto;
 import com.team_quddy.quddy.exam.domain.response.ExamRes;
 import com.team_quddy.quddy.exam.domain.dto.TemplateDto;
 import com.team_quddy.quddy.exam.domain.dto.TemplateListDto;
@@ -68,7 +69,7 @@ public class ExamServiceImpl implements ExamService{
             StringBuilder sb = new StringBuilder();
             sb.append(id).append(" ").append(usersId);
             result = cipherService.encode(sb.toString(), secret);
-            return new ExamRes(result, null);
+            return new ExamRes(new ExamDto(result, null));
         }
         return exam;
     }

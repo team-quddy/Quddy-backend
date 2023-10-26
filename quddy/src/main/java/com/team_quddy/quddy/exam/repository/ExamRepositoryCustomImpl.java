@@ -141,7 +141,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
         List<ProblemsDto> list = exam.getProblems().stream()
                 .map(p -> new ProblemsDto(p.getId(), p.getQuestion(), p.getExImg(), p.getExText(), p.getIsObjective(), p.getOpt()))
                 .collect(Collectors.toList());
-        return new ExamRes(exam.getTitle(), list);
+        return new ExamRes(new ExamDto(exam.getTitle(), list));
     }
 
     @Override
