@@ -49,7 +49,7 @@ public class ExamController {
         try {
             ExamRes exam = examService.getExam(id, usersId, secret);
             if (exam.getExam().getProblems() == null) {
-                return new ResponseEntity<>(new ExamIdRes(exam.getExam().getTitle()), HttpStatus.OK);
+                return new ResponseEntity<>(new ResultIdRes(exam.getExam().getTitle()), HttpStatus.OK);
             }
             return new ResponseEntity<>(exam, HttpStatus.OK);
         } catch (Exception e) {
@@ -57,13 +57,13 @@ public class ExamController {
         }
     }
 
-    @PostMapping("/solver")
-    public ResponseEntity<?> getGrade(@RequestBody GradeReq gradeReq, @CookieValue(name = "usersID") String usersId) {
+    @PostMapping("/solver/exam")
+    public ResponseEntity<?> getGrade(@RequestBody GradeReq gradeReq, @CookieValue(name = "usersID") String usersId, @Value("${myapp.secret}") String secret) {
         log.info("---------------getGrade users id : " + usersId);
         try {
-            GradeRes gradeRes = examService.getGrade(gradeReq, usersId);
-            return new ResponseEntity<GradeRes>(gradeRes, HttpStatus.OK);
-        } catch (MyException e) {
+            ResultIdRes gradeRes = examService.getGrade(gradeReq, usersId, secret);
+            return new ResponseEntity<ResultIdRes>(gradeRes, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

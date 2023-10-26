@@ -9,6 +9,11 @@ import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 @Service
 public class CipherService {
+    public String encodeResultId(Integer id, String usersId, String secret) throws Exception{
+        StringBuilder sb = new StringBuilder();
+        sb.append(id).append(" ").append(usersId);
+        return encode(sb.toString(), secret);
+    }
     public String encode(String str, String secret) throws Exception{
         byte[] secretBytes = secret.getBytes();
         SecretKey secretKey = new SecretKeySpec(secretBytes, "AES");

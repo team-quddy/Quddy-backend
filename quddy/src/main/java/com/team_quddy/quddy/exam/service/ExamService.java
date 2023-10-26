@@ -18,7 +18,7 @@ public interface ExamService {
 
     ExamRes getExam(Integer id, String usersId, String secret) throws Exception;
 
-    GradeRes getGrade(GradeReq gradeReq, String usersId) throws MyException;
+    ResultIdRes getGrade(GradeReq gradeReq, String usersId, String secret) throws Exception;
 
     ExamIdRes makeExam(ExamReq examReq, String usersId);
 

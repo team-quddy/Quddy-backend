@@ -66,9 +66,7 @@ public class ExamServiceImpl implements ExamService{
         Boolean isSolved = submitRepository.getSubmit(id, Integer.parseInt(usersId));
         String result = null;
         if (isSolved) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(id).append(" ").append(usersId);
-            result = cipherService.encode(sb.toString(), secret);
+            result = cipherService.encodeResultId(id, usersId, secret);
             return new ExamRes(new ExamDto(result, null));
         }
         return exam;
@@ -76,7 +74,7 @@ public class ExamServiceImpl implements ExamService{
 
     @Override
     @Transactional
-    public GradeRes getGrade(GradeReq gradeReq, String usersId) throws MyException{
+    public ResultIdRes getGrade(GradeReq gradeReq, String usersId, String secret) throws Exception{
         Boolean isSolved = submitRepository.getSubmit(gradeReq.getExam().getId(), Integer.parseInt(usersId));
         if (isSolved) {
             throw new MyException("잘못된 접근입니다 : 이미 응시한 시험입니다.");
@@ -87,18 +85,16 @@ public class ExamServiceImpl implements ExamService{
         List<ProblemGradeDto> sheet = gradeReq.getExam().getProblems();
         Collections.sort(sheet, ((o1, o2) -> Integer.compare(Integer.parseInt(o1.getProblemId()), Integer.parseInt(o2.getProblemId()))));
         Collections.sort(exam.getProblems(), (o1, o2) -> Integer.compare(o1.getId(), o2.getId()));
-        Integer correct = 0;    // correct : 맞은 문제 개수
         for (int i = 0; i < sheet.size(); i++) {
             Boolean isCorrect = false;
             if (sheet.get(i).getAnswer().equals(exam.getProblems().get(i).getAnswer())) {
                 exam.getProblems().get(i).addCnt();
-                correct++;
                 isCorrect = true;
             }
             Submit submit = new Submit(sheet.get(i).getAnswer(), isCorrect, exam.getProblems().get(i), users);
             submitRepository.save(submit);
         }
-        return new GradeRes(correct);
+        return new ResultIdRes(cipherService.encodeResultId(gradeReq.getExam().getId(), usersId, secret));
     }
 
     @Override

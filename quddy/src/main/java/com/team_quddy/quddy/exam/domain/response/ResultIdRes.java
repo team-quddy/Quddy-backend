@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class GradeRes {
-    private Integer correct;
+public class ResultIdRes {
+    private String id;
 }
