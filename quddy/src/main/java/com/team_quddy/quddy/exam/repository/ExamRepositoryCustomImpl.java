@@ -151,8 +151,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
                 .leftJoin(QExam.exam.problems, QProblem.problem).fetchJoin()
                 .leftJoin(QExam.exam.users, QUsers.users).fetchJoin()
                 .where(QExam.exam.id.eq(id)).fetchOne();
-
-        if (exam.getId() != usersId) {
+        if (exam.getUsers().getId() != usersId) {
             throw new MyException("잘못된 접근입니다 : 다른 사용자의 문제집에 접근");
         }
 
