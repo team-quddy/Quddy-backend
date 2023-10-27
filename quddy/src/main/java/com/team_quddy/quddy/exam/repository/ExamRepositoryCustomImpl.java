@@ -105,9 +105,9 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         switch (sort) {
             case "popular":
-                return new OrderSpecifier<Integer>(Order.DESC, exam.cnt);
+                return new OrderSpecifier<Integer>(Order.DESC, exam.scrap);
             default:
-                return new OrderSpecifier<String>(Order.DESC, exam.createdDate);
+                return new OrderSpecifier<Integer>(Order.DESC, exam.id);
         }
     }
 
