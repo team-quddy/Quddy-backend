@@ -80,6 +80,9 @@ public class ExamServiceImpl implements ExamService{
             throw new MyException("잘못된 접근입니다 : 이미 응시한 시험입니다.");
         }
         Exam exam = examRepository.getExamById(gradeReq.getExam().getId());
+        if (gradeReq.getExam().getProblems().size() != exam.getCnt()) {
+            throw new MyException("잘못된 요청입니다 : 제출 정답의 개수가 다릅니다.");
+        }
         Users users = usersRepository.getUsersById(Integer.parseInt(usersId));
         // exam의 problems랑, greadeReq의 problems랑 answer 비교하기
         List<ProblemGradeDto> sheet = gradeReq.getExam().getProblems();
