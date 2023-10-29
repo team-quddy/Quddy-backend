@@ -75,17 +75,17 @@ public class ExamServiceImpl implements ExamService{
     @Override
     @Transactional
     public ResultIdRes getGrade(GradeReq gradeReq, String usersId, String secret) throws Exception{
-        Boolean isSolved = submitRepository.getSubmit(gradeReq.getExam().getId(), Integer.parseInt(usersId));
+        Boolean isSolved = submitRepository.getSubmit(gradeReq.getId(), Integer.parseInt(usersId));
         if (isSolved) {
             throw new MyException("잘못된 접근입니다 : 이미 응시한 시험입니다.");
         }
-        Exam exam = examRepository.getExamById(gradeReq.getExam().getId());
-        if (gradeReq.getExam().getProblems().size() != exam.getCnt()) {
+        Exam exam = examRepository.getExamById(gradeReq.getId());
+        if (gradeReq.getProblems().size() != exam.getCnt()) {
             throw new MyException("잘못된 요청입니다 : 제출 정답의 개수가 다릅니다.");
         }
         Users users = usersRepository.getUsersById(Integer.parseInt(usersId));
         // exam의 problems랑, greadeReq의 problems랑 answer 비교하기
-        List<ProblemGradeDto> sheet = gradeReq.getExam().getProblems();
+        List<ProblemGradeDto> sheet = gradeReq.getProblems();
         Collections.sort(sheet, ((o1, o2) -> Integer.compare(Integer.parseInt(o1.getProblemId()), Integer.parseInt(o2.getProblemId()))));
         Collections.sort(exam.getProblems(), (o1, o2) -> Integer.compare(o1.getId(), o2.getId()));
         for (int i = 0; i < sheet.size(); i++) {
@@ -97,7 +97,7 @@ public class ExamServiceImpl implements ExamService{
             Submit submit = new Submit(sheet.get(i).getAnswer(), isCorrect, exam.getProblems().get(i), users);
             submitRepository.save(submit);
         }
-        return new ResultIdRes(cipherService.encodeResultId(gradeReq.getExam().getId(), usersId, secret));
+        return new ResultIdRes(cipherService.encodeResultId(gradeReq.getId(), usersId, secret));
     }
 
     @Override
