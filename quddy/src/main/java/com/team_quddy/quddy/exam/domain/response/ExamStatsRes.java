@@ -14,6 +14,7 @@ public class ExamStatsRes {
     private String date;
     private Boolean isPublic;
     private Integer cnt;
+    private Integer total;
     private Integer scrap;
     private String nickname;
     private String ref;
