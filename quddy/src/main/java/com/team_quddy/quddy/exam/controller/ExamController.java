@@ -39,6 +39,7 @@ public class ExamController {
         try {
             return new ResponseEntity<>(examService.getTemplateDetail(id), HttpStatus.OK);
         } catch (MyException e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -53,17 +54,19 @@ public class ExamController {
             }
             return new ResponseEntity<>(exam, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/solver/exam")
     public ResponseEntity<?> getGrade(@RequestBody GradeReq gradeReq, @CookieValue(name = "usersID") String usersId, @Value("${myapp.secret}") String secret) {
-        log.info("---------------getGrade users id : " + usersId);
+        log.info("---------------getGrade users id : " + usersId + " exam id : " + gradeReq.getId());
         try {
             ResultIdRes gradeRes = examService.getGrade(gradeReq, usersId, secret);
             return new ResponseEntity<ResultIdRes>(gradeRes, HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -86,6 +89,7 @@ public class ExamController {
         try {
             return new ResponseEntity<>(examService.getStats(id, usersId), HttpStatus.OK);
         } catch (MyException e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -96,6 +100,7 @@ public class ExamController {
         try {
             return new ResponseEntity<>(examService.getResult(resultId, secret), HttpStatus.OK);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
