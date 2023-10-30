@@ -104,7 +104,7 @@ public class ExamServiceImpl implements ExamService{
     @Transactional
     public ExamIdRes makeExam(ExamReq examReq, String usersId) {
         Users users = usersRepository.getUsersById(Integer.parseInt(usersId));
-        Exam exam = examRepository.save(Exam.createExam(examReq.getTitle(), examReq.getDate(), examReq.getIsPublic(), examReq.getCnt(), examReq.getRef(), examReq.getThumbnail(), users));
+        Exam exam = examRepository.save(Exam.createExam(examReq.getTitle(), examReq.getDate(), examReq.getIsPublic(), examReq.getProblems().size(), examReq.getRef(), examReq.getThumbnail(), users));
 
         for (int i = 0; i < examReq.getProblems().size(); i++) {
             ProblemTemplate template = examReq.getProblems().get(i);
