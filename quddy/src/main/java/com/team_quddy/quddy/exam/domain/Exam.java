@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,8 +23,10 @@ public class Exam {
     private String title;
     private String createdDate;
     private Boolean isPublic;
+    @ColumnDefault("0")
     private Integer scrap;
     private Integer cnt;
+    @ColumnDefault("0")
     private String ref;
     @Column(columnDefinition = "LONGTEXT")
     private String thumbnail;
