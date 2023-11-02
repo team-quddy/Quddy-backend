@@ -7,6 +7,8 @@ import com.team_quddy.quddy.exam.domain.request.GradeReq;
 import com.team_quddy.quddy.exam.domain.response.*;
 import com.team_quddy.quddy.global.exception.MyException;
 import com.team_quddy.quddy.global.search.SearchOption;
+import com.team_quddy.quddy.problem.domain.dto.ProblemResultDto;
+import com.team_quddy.quddy.problem.domain.dto.ProblemsDto;
 
 import java.util.List;
 
@@ -16,7 +18,7 @@ public interface ExamService {
 
     TemplateDetailRes getTemplateDetail(Integer id);
 
-    ExamRes getExam(Integer id, String usersId, String secret) throws Exception;
+    ExamRes<ProblemsDto> getExam(Integer id, String usersId, String secret) throws Exception;
 
     ResultIdRes getGrade(GradeReq gradeReq, String usersId, String secret) throws Exception;
 
@@ -24,6 +26,6 @@ public interface ExamService {
 
     List<MyExam> getMyExams(SearchOption searchOption, String usersId);
 
-    ExamResultRes getResult(String resultId, String secret) throws Exception;
+    ExamResultRes<ProblemResultDto> getResult(String resultId, String secret) throws Exception;
     ExamStatsRes getStats(Integer id, String userId);
 }

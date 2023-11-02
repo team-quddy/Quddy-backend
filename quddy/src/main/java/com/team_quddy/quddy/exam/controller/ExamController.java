@@ -6,6 +6,7 @@ import com.team_quddy.quddy.exam.domain.response.*;
 import com.team_quddy.quddy.exam.service.ExamService;
 import com.team_quddy.quddy.global.exception.MyException;
 import com.team_quddy.quddy.global.search.SearchOption;
+import com.team_quddy.quddy.problem.domain.dto.ProblemsDto;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,7 +49,7 @@ public class ExamController {
     public ResponseEntity<?> getExam(@PathVariable Integer id, @CookieValue(name = "usersID") String usersId, @Value("${myapp.secret}") String secret) {
         log.info("---------------exam id : " + id);
         try {
-            ExamRes exam = examService.getExam(id, usersId, secret);
+            ExamRes<ProblemsDto> exam = examService.getExam(id, usersId, secret);
             if (exam.getExam().getProblems() == null) {
                 return new ResponseEntity<>(new ResultIdRes(exam.getExam().getTitle()), HttpStatus.OK);
             }

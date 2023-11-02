@@ -8,6 +8,6 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class ExamRes {
-    private ExamDto exam;
+public class ExamRes<T> {
+    private ExamDto<T> exam;
 }

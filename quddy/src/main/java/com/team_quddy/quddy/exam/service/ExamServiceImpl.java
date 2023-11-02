@@ -15,7 +15,9 @@ import com.team_quddy.quddy.global.exception.MyException;
 import com.team_quddy.quddy.global.search.SearchOption;
 import com.team_quddy.quddy.problem.domain.Problem;
 import com.team_quddy.quddy.problem.domain.dto.ProblemGradeDto;
+import com.team_quddy.quddy.problem.domain.dto.ProblemResultDto;
 import com.team_quddy.quddy.problem.domain.dto.ProblemTemplate;
+import com.team_quddy.quddy.problem.domain.dto.ProblemsDto;
 import com.team_quddy.quddy.problem.repository.ProblemRepository;
 import com.team_quddy.quddy.submit.domain.Submit;
 import com.team_quddy.quddy.submit.repository.SubmitRepository;
@@ -61,8 +63,8 @@ public class ExamServiceImpl implements ExamService{
     }
 
     @Override
-    public ExamRes getExam(Integer id, String usersId, String secret) throws Exception{
-        ExamRes exam = examRepository.getExam(id);
+    public ExamRes<ProblemsDto> getExam(Integer id, String usersId, String secret) throws Exception{
+        ExamRes<ProblemsDto> exam = examRepository.getExam(id);
         Boolean isSolved = submitRepository.getSubmit(id, Integer.parseInt(usersId));
         String result = null;
         if (isSolved) {
@@ -121,7 +123,7 @@ public class ExamServiceImpl implements ExamService{
     }
 
     @Override
-    public ExamResultRes getResult(String resultId, String secret) throws Exception {
+    public ExamResultRes<ProblemResultDto> getResult(String resultId, String secret) throws Exception {
         String[] plain = cipherService.decode(resultId, secret).split(" ");
         log.info("exam id : " + plain[0] + " users id : " + plain[1]);
         return examRepository.getResult(Integer.parseInt(plain[0]), Integer.parseInt(plain[1]));

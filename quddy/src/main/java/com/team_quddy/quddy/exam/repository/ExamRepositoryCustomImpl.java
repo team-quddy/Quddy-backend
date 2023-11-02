@@ -132,7 +132,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
     }
 
     @Override
-    public ExamRes getExam(Integer id) {
+    public ExamRes<ProblemsDto> getExam(Integer id) {
         Exam exam =
                 queryFactory.select(QExam.exam).from(QExam.exam)
                         .leftJoin(QExam.exam.problems, QProblem.problem).fetchJoin()
@@ -141,7 +141,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
         List<ProblemsDto> list = exam.getProblems().stream()
                 .map(p -> new ProblemsDto(p.getId(), p.getQuestion(), p.getExImg(), p.getExText(), p.getIsObjective(), p.getOpt()))
                 .collect(Collectors.toList());
-        return new ExamRes(new ExamDto(exam.getTitle(), list));
+        return new ExamRes<>(new ExamDto<>(exam.getTitle(), list));
     }
 
     @Override
@@ -164,7 +164,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
     }
 
     @Override
-    public ExamResultRes getResult(Integer id, Integer usersId) throws MyException{
+    public ExamResultRes<ProblemResultDto> getResult(Integer id, Integer usersId) throws MyException{
         List<ProblemResultTempDto> temp = queryFactory.select(Projections.fields(ProblemResultTempDto.class,
                         QProblem.problem.id,
                         QProblem.problem.question,
@@ -226,6 +226,6 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
             }
         }
         Double percentile = (double) rank / total;
-        return new ExamResultRes(new ExamDto(exam.getTitle(), problems), new ResultDto(problemCnt, correct, percentile, total == 1));
+        return new ExamResultRes<>(new ExamDto<>(exam.getTitle(), problems), new ResultDto(problemCnt, correct, percentile, total == 1));
     }
 }

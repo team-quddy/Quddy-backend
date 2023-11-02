@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ExamResultRes {
-    private ExamDto exam;
+public class ExamResultRes<T> {
+    private ExamDto<T> exam;
     private ResultDto result;
 }
