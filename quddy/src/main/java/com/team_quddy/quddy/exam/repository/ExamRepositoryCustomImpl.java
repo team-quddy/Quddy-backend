@@ -2,6 +2,7 @@ package com.team_quddy.quddy.exam.repository;
 
 import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team_quddy.quddy.exam.domain.Exam;
 import com.team_quddy.quddy.exam.domain.QExam;
@@ -30,6 +31,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.team_quddy.quddy.exam.domain.QExam.exam;
+import static com.team_quddy.quddy.submit.domain.QSubmit.submit;
 
 
 @Slf4j
@@ -197,9 +199,11 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
                         .where(QExam.exam.id.eq(id)).fetchOne();
 
         List<SubmitResultDto> submitResultDtoList = queryFactory.select(Projections.fields(SubmitResultDto.class,
-                        QSubmit.submit.users, QSubmit.submit.count().as("acc")))
-                .from(QSubmit.submit)
-                .where(QSubmit.submit.problem.in(exam.getProblems()).and(QSubmit.submit.isCorrect.eq(Boolean.TRUE)))
+                        QSubmit.submit.users,
+                        Expressions.cases().when(submit.isCorrect.eq(true)).then(1L)
+                                            .otherwise(0L).sum().as("acc")))
+                .from(submit)
+                .where(QSubmit.submit.problem.in(exam.getProblems()))
                 .groupBy(QSubmit.submit.users)
                 .orderBy(QSubmit.submit.count().desc())
                 .fetch();
