@@ -12,6 +12,6 @@ public class ProblemsDto {
     private String question;
     private String exImg;
     private String exText;
-    private boolean isObjective;
+    private Boolean isObjective;
     private String opt;
 }
