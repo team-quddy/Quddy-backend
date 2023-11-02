@@ -65,12 +65,16 @@ public class ExamServiceImpl implements ExamService{
     @Override
     public ExamRes<ProblemsDto> getExam(Integer id, String usersId, String secret) throws Exception{
         ExamRes<ProblemsDto> exam = examRepository.getExam(id);
+        if (usersId.equals("noID")) {   // 비회원인 경우
+            return exam;
+        }
         Boolean isSolved = submitRepository.getSubmit(id, Integer.parseInt(usersId));
         String result = null;
-        if (isSolved) {
+        if (isSolved) { // 응시자인 경우
             result = cipherService.encodeResultId(id, usersId, secret);
             return new ExamRes(new ExamDto(result, null));
         }
+        // 미응시자인 경우
         return exam;
     }
 
