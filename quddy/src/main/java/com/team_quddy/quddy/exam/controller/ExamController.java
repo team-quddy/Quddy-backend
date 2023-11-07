@@ -46,7 +46,7 @@ public class ExamController {
     }
 
     @GetMapping("/solver/exam/{id}")
-    public ResponseEntity<?> getExam(@PathVariable Integer id, @CookieValue(name = "usersID") String usersId, @Value("${myapp.secret}") String secret) {
+    public ResponseEntity<?> getExam(@PathVariable Integer id, @CookieValue(name = "usersID", defaultValue = "noID") String usersId, @Value("${myapp.secret}") String secret) {
         log.info("---------------exam id : " + id);
         try {
             ExamRes<ProblemsDto> exam = examService.getExam(id, usersId, secret);
