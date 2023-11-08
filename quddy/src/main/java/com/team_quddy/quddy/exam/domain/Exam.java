@@ -46,6 +46,10 @@ public class Exam {
         users.getExams().add(this);
     }
 
+    public void addScrap() {
+        this.scrap++;
+    }
+
     private Exam(String title, String createdDate, Boolean isPublic, Integer cnt, String ref, String thumbnail) {
         this.title = title;
         this.createdDate = createdDate;
