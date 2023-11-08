@@ -140,7 +140,7 @@ public class ExamServiceImpl implements ExamService{
     }
 
     /**
-     * GET : api/result/{resultId}
+     * GET : api/solver/result/{resultId}
      * 사용자의 점수 가져오기
      * @param resultId : 응시 결과 id
      * @param secret : 암호화 키
