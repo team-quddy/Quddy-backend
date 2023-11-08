@@ -174,7 +174,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
                         QProblem.problem.exText,
                         QProblem.problem.isObjective,
                         QProblem.problem.opt,
-                        QProblem.problem.answer,
+                        QProblem.problem.answer.as("submitAnswer"),
                         QSubmit.submit.result,
                         QSubmit.submit.isCorrect
                 )).from(QSubmit.submit)
