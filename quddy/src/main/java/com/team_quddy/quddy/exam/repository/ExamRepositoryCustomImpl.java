@@ -83,7 +83,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
         List<MyExam> examList =
                 queryFactory.select(Projections.fields(MyExam.class,
                                 exam.title,
-                                exam.createdDate,
+                                exam.createdDate.as("date"),
                                 exam.isPublic,
                                 exam.scrap,
                                 exam.cnt,
@@ -161,7 +161,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
                 .map(p -> new ProblemStatsDto(p.getQuestion(), p.getAnswer(), p.getExImg(), p.getExText(), p.getIsObjective(), p.getOpt(), p.getCnt()))
                 .collect(Collectors.toList());
 
-        return new ExamStatsRes(exam.getTitle(), exam.getThumbnail(), exam.getCreatedDate(), exam.getIsPublic(), exam.getCnt(), exam.getProblems().get(0).getCnt(), exam.getScrap(), exam.getUsers().getNickname(),
+        return new ExamStatsRes(exam.getTitle(), exam.getThumbnail(), exam.getCreatedDate(), exam.getIsPublic(), exam.getCnt(), exam.getProblems().get(0).getTotal(), exam.getScrap(), exam.getUsers().getNickname(),
                 exam.getRef(), list);
     }
 
@@ -174,7 +174,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
                         QProblem.problem.exText,
                         QProblem.problem.isObjective,
                         QProblem.problem.opt,
-                        QProblem.problem.answer,
+                        QProblem.problem.answer.as("submitAnswer"),
                         QSubmit.submit.result,
                         QSubmit.submit.isCorrect
                 )).from(QSubmit.submit)
