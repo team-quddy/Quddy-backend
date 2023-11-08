@@ -27,6 +27,7 @@ public class Problem {
     private String exText;
     private String opt;
     private Integer cnt;
+    private Integer total;
 
     @OneToMany(mappedBy = "problem")
     List<Submit> submits = new ArrayList<>();
@@ -51,6 +52,7 @@ public class Problem {
         this.exText = exText;
         this.opt = opt;
         this.cnt = 0;
+        this.total = 0;
     }
 
     public static Problem createProblem(String question, String answer, Boolean isObjective, String exImg, String exText, String opt, Exam exam) {
@@ -63,4 +65,7 @@ public class Problem {
         this.cnt++;
     }
 
+    public void addTotal(){
+        this.total++;
+    }
 }

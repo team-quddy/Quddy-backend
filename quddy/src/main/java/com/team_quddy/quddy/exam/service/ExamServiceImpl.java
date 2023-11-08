@@ -133,6 +133,7 @@ public class ExamServiceImpl implements ExamService{
                 exam.getProblems().get(i).addCnt();
                 isCorrect = true;
             }
+            exam.getProblems().get(i).addTotal();
             Submit submit = new Submit(sheet.get(i).getAnswer(), isCorrect, exam.getProblems().get(i), users);
             submitRepository.save(submit);
         }

@@ -161,7 +161,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
                 .map(p -> new ProblemStatsDto(p.getQuestion(), p.getAnswer(), p.getExImg(), p.getExText(), p.getIsObjective(), p.getOpt(), p.getCnt()))
                 .collect(Collectors.toList());
 
-        return new ExamStatsRes(exam.getTitle(), exam.getThumbnail(), exam.getCreatedDate(), exam.getIsPublic(), exam.getCnt(), exam.getProblems().get(0).getCnt(), exam.getScrap(), exam.getUsers().getNickname(),
+        return new ExamStatsRes(exam.getTitle(), exam.getThumbnail(), exam.getCreatedDate(), exam.getIsPublic(), exam.getCnt(), exam.getProblems().get(0).getTotal(), exam.getScrap(), exam.getUsers().getNickname(),
                 exam.getRef(), list);
     }
 
