@@ -83,7 +83,7 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
         List<MyExam> examList =
                 queryFactory.select(Projections.fields(MyExam.class,
                                 exam.title,
-                                exam.createdDate,
+                                exam.createdDate.as("date"),
                                 exam.isPublic,
                                 exam.scrap,
                                 exam.cnt,
