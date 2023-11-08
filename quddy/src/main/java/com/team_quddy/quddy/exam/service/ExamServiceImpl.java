@@ -125,7 +125,7 @@ public class ExamServiceImpl implements ExamService{
         Users users = usersRepository.getUsersById(Integer.parseInt(usersId));
         // exam의 problems랑, greadeReq의 problems랑 answer 비교하기
         List<ProblemGradeDto> sheet = gradeReq.getProblems();
-        Collections.sort(sheet, ((o1, o2) -> Integer.compare(Integer.parseInt(o1.getProblemId()), Integer.parseInt(o2.getProblemId()))));
+        Collections.sort(sheet, ((o1, o2) -> Integer.compare(Integer.parseInt(o1.getId()), Integer.parseInt(o2.getId()))));
         Collections.sort(exam.getProblems(), (o1, o2) -> Integer.compare(o1.getId(), o2.getId()));
         for (int i = 0; i < sheet.size(); i++) {
             Boolean isCorrect = false;

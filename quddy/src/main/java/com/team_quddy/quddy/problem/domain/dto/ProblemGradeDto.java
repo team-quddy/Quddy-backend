@@ -4,6 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class ProblemGradeDto {
-    private String problemId;
+    private String id;
     private String answer;
 }
