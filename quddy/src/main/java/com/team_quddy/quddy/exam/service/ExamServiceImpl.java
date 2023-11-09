@@ -178,8 +178,10 @@ public class ExamServiceImpl implements ExamService{
     public ExamIdRes makeExam(ExamReq examReq, String usersId) {
         Users users = usersRepository.getUsersById(Integer.parseInt(usersId));
         Exam exam = examRepository.save(Exam.createExam(examReq.getTitle(), examReq.getDate(), examReq.getIsPublic(), examReq.getProblems().size(), examReq.getRef(), examReq.getThumbnail(), users));
-        Exam ref = examRepository.getExamById(Integer.parseInt(examReq.getRef()));
-        ref.addScrap();
+        if (!examReq.getRef().equals("")) {
+            Exam ref = examRepository.getExamById(Integer.parseInt(examReq.getRef()));
+            ref.addScrap();
+        }
         for (int i = 0; i < examReq.getProblems().size(); i++) {
             ProblemTemplate template = examReq.getProblems().get(i);
             problemRepository.save(Problem.createProblem(template.getQuestion(), template.getAnswer(), template.getIsObjective(), template.getExImg(), template.getExText(), template.getOpt(), exam));
