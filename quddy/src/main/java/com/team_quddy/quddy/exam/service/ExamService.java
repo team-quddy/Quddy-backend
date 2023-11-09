@@ -18,14 +18,16 @@ public interface ExamService {
     List<TemplateListDto> getTemplate(SearchOption searchOption);
     // 공개 문제집 중 가장 인기있는 5개 목록 가져오기
     List<TemplatePopularDto> getPopularTemplate();
-
-    // solver -----------------------
     // id에 해당하는 공개 문제집의 상세 정보 가져오기
     TemplateDetailRes getTemplateDetail(Integer id);
+
+    // solver -----------------------
     // 응시할 문제집 가져오기
     ExamRes<ProblemsDto> getExam(Integer id, String usersId, String secret) throws Exception;
     // 응시 문제집 채점하기
     ResultIdRes getGrade(GradeReq gradeReq, String usersId, String secret) throws Exception;
+    // 사용자가 응시한 문제집 목록 가져오기
+    List<SolveExam> getSolveMyExam(String usersId);
     // 사용자의 점수 가져오기
     ExamResultRes<ProblemResultDto> getResult(String resultId, String secret) throws Exception;
 
