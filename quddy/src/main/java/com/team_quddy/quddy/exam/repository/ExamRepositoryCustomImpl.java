@@ -23,11 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.team_quddy.quddy.exam.domain.QExam.exam;
@@ -205,9 +203,10 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
                 .from(submit)
                 .where(QSubmit.submit.problem.in(exam.getProblems()))
                 .groupBy(QSubmit.submit.users)
-                .orderBy(QSubmit.submit.count().desc())
                 .fetch();
 
+        Collections.sort(submitResultDtoList);
+        Collections.reverse(submitResultDtoList);
         Integer total = submitResultDtoList.size();
         int[] ranks = new int[submitResultDtoList.size()];
         long prevCorrect = submitResultDtoList.get(0).getAcc();
@@ -224,14 +223,16 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
             }
             ranks[i] = rank;
         }
+        Integer temp_total = rank;
         for (int i = 0; i < total; i++) {
             if (submitResultDtoList.get(i).getUsers().getId() == usersId) {
                 rank = ranks[i];
             }
         }
-        Double percentile = (double) rank / total;
-        percentile = (double) Math.round((percentile * 100) / 100.0);
-        percentile = 1.0 - percentile;
+        Double percentile = (double) rank / temp_total;
+        DecimalFormat decimalFormat = new DecimalFormat("#.###");
+        String formattedValue = decimalFormat.format(percentile);
+        percentile = Double.parseDouble(formattedValue);
         return new ExamResultRes<>(new ExamDto<>(exam.getTitle(), problems), new ResultDto(problemCnt, correct, percentile, total == 1));
     }
 }
