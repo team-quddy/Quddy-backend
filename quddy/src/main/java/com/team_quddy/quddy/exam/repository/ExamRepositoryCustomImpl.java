@@ -230,6 +230,8 @@ public class ExamRepositoryCustomImpl implements ExamRepositoryCustom{
             }
         }
         Double percentile = (double) rank / total;
-        return new ExamResultRes<>(new ExamDto<>(exam.getTitle(), problems), new ResultDto(problemCnt, correct, (double) Math.round((percentile*100)/100.0), total == 1));
+        percentile = (double) Math.round((percentile * 100) / 100.0);
+        percentile = 1.0 - percentile;
+        return new ExamResultRes<>(new ExamDto<>(exam.getTitle(), problems), new ResultDto(problemCnt, correct, percentile, total == 1));
     }
 }
