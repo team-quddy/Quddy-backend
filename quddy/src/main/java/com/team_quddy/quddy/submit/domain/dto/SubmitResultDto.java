@@ -8,7 +8,12 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class SubmitResultDto {
+public class SubmitResultDto implements Comparable<SubmitResultDto>{
     private Users users;
     private Long acc;
+
+    @Override
+    public int compareTo(SubmitResultDto o) {
+        return Long.compare(this.acc, o.acc);
+    }
 }
