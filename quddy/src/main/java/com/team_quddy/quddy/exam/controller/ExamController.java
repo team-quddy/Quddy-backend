@@ -101,6 +101,17 @@ public class ExamController {
     }
 
     /**
+     * 사용자가 응시한 문제집 목록 가져오기
+     * @param usersId : 사용자 id
+     * @return 사용자가 응시한 문제집 목록
+     */
+    @GetMapping("/solver/exam")
+    public ResponseEntity<?> getMySolveExams(@CookieValue(name = "usersID") String usersId) {
+        log.info("-----------------------getMySolveExams users id : " + usersId);
+        return new ResponseEntity<>(new ExamsRes(examService.getSolveMyExam(usersId)), HttpStatus.OK);
+    }
+
+    /**
      * 사용자의 점수 가져오기
      * @param resultId : 응시 결과 id
      * @param secret : 암호화 키

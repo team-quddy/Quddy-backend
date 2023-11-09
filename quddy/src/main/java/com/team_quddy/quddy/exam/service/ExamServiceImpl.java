@@ -141,6 +141,18 @@ public class ExamServiceImpl implements ExamService{
     }
 
     /**
+     * GET : api/solver/exam
+     * 사용자가 응시한 문제집 목록 가져오기
+     * @param usersId : 사용자 id
+     * @return 사용자가 응시한 문제집 목록
+     */
+    @Override
+    public List<SolveExam> getSolveMyExam(String usersId) {
+        Users users = usersRepository.getUsersById(Integer.parseInt(usersId));
+        return submitRepository.getSolveMyExams(users);
+    }
+
+    /**
      * GET : api/solver/result/{resultId}
      * 사용자의 점수 가져오기
      * @param resultId : 응시 결과 id
